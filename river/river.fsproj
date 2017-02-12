@@ -83,6 +83,9 @@
     <Reference Include="FSharp.Data.Toolbox.Twitter">
       <HintPath>..\packages\FSharp.Data.Toolbox.Twitter.0.19\lib\net40\FSharp.Data.Toolbox.Twitter.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceModel.Discovery" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
@@ -90,8 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="testData.json" />
-    <None Include="primer_fungus-hunger.gif" />
     <None Include="config.yaml" />
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
