@@ -10,7 +10,7 @@
         - Learn to tweet images/text
         - Scan current folder for images
         - CRUD a Yaml based on images found
-        - Read from a Yaml with time to post
+        - Read from a Yaml the times to post
         - Post once to twitter the images with a time *)
 
 
@@ -31,11 +31,7 @@ data.Save(YamlFile)
 
 
 (*  Twitter *)
-type TweetData = {
-    message : string;
-    image: string;
-    publish_date: string;
-}
+type TweetData = { message : string; image: string; publish_date: string; }
 
 let key = "w9HTFA5cCDPhmLqUYqrSK6kXK"
 let secret = "kkrn0e66g5hpKzLwEbnvY6KVR4pqUfDnJNBvoXcgjqCvZGu1Bv"
