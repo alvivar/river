@@ -76,12 +76,12 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Tweetinvi">
-      <HintPath>..\packages\TweetinviAPI.1.2.0.1\lib\net45\Tweetinvi.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="Tweetinvi">
+      <HintPath>..\packages\TweetinviAPI.1.2.0.1\lib\net45\Tweetinvi.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
@@ -90,6 +90,17 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="config.yaml" />
+    <None Include="Test\primer-corruption.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Test\primer_fungus-tower.png" />
+    <None Include="Test\primer_more-corruption.png" />
+    <None Include="Test\primer_purple-fungus.png" />
+    <None Include="Test\primer_the-second-world.png" />
+    <None Include="Test\primer_this-level-looks-like-a-gun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Test\" />
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
