@@ -1,5 +1,5 @@
 # River
 
-## Queue Tweet by dropping images into a folder!
+### Queue tweets by dropping images into a folder!
 
-By [matnesis](http://twitter.com/matnesis)
+> by [matnesis](http://twitter.com/matnesis)
