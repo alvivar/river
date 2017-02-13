@@ -6,8 +6,9 @@
 
 
     To do
-        x Learn to Yaml
-        - Learn to tweet images/text
+        x Learn to Yaml (doesn't work on netcore)
+        x Learn to tweet images/text
+        - Learn to JSON :/
         - Scan current folder for images
         - CRUD a Yaml based on images found
         - Read from a Yaml with time to post
@@ -43,7 +44,7 @@ let imageMedia = Upload.UploadImage(image)
 let parameters = new Parameters.PublishTweetOptionalParameters()
 parameters.Medias.Add(imageMedia)
 
-let tweet = Tweet.PublishTweet("This tweet is another test", parameters)
+let tweet = Tweet.PublishTweet("This tweet is a #test", parameters)
 
 
 (*  MAIN *)
@@ -51,4 +52,5 @@ let tweet = Tweet.PublishTweet("This tweet is another test", parameters)
 let main argv =
     printfn "%A" argv
     printfn "%s" (Directory.GetCurrentDirectory())
+
     0 // Exit code
