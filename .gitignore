@@ -38,3 +38,6 @@ Thumbs.db
 
 # dotCover
 *.dotCover
+
+# I don't need VSCode stuff for the moment
+.vscode
