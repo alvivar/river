@@ -5,14 +5,25 @@
     By twitter.com/matnesis
 
 
-    To do
+    TO DO
         x Learn to Yaml (doesn't work on netcore)
         x Learn to tweet images/text
-        - Learn to JSON :/
-        - Scan current folder for images
-        - CRUD a Yaml based on images found
-        - Read from a Yaml with time to post
-        - Post once to twitter the images with a time *)
+        - Learn to JSON
+        - Scan and list current folder for images
+        - CRUD a config file based on images found
+        - Read from a config file with time to post
+        - Chat though console to communicate with the bot
+            - Explain defaults and commands
+            - Set tweets per day
+            - Set auto schedule mode based on tweets per day
+            - Sort queue
+            - Set fixed schedule mode
+            - Exit
+        - Best time to tweet
+            - Followers, following analysis
+            - Interactions analysis
+            - Prediction model
+        - Post once to twitter withing the time scheduled *)
 
 
 open Tweetinvi
@@ -22,18 +33,13 @@ open System.IO
 
 (*  Twitter *)
 
-type TweetData = {
-    message : string;
-    image: string;
-    publish_date: string;
-}
+type TweetData = { message : string; image: string; publish_date: string }
 
 // Auth
 let key = "w9HTFA5cCDPhmLqUYqrSK6kXK"
 let keySecret = "kkrn0e66g5hpKzLwEbnvY6KVR4pqUfDnJNBvoXcgjqCvZGu1Bv"
 let token = "55159989-NThkem3iDw1U1L3fEA0iLdwqYfeEkPHzLRfNPg4uI"
 let tokenSecret = "DboMLBHwRBVW2QQmpEXPBbs1UEMIeFkHNvEgxJT4q8Z8Z"
-
 Tweetinvi.Auth.SetUserCredentials(key, keySecret, token, tokenSecret) |> ignore
 
 // Image upload
@@ -43,14 +49,13 @@ let imageMedia = Upload.UploadImage(image)
 // The tweet
 let parameters = new Parameters.PublishTweetOptionalParameters()
 parameters.Medias.Add(imageMedia)
-
 let tweet = Tweet.PublishTweet("This tweet is a #test", parameters)
 
 
 (*  MAIN *)
 [<EntryPoint>]
 let main argv =
-    printfn "%A" argv
-    printfn "%s" (Directory.GetCurrentDirectory())
+    printfn "Arguments %A" argv
+    printfn "Current directory -> %s" (Directory.GetCurrentDirectory())
 
     0 // Exit code
