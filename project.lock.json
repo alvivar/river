@@ -3,6 +3,19 @@
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.1": {
+      "Autofac/4.1.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "System.ComponentModel": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.1/Autofac.dll": {}
+        }
+      },
       "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
@@ -116,7 +129,7 @@
           "ref/netstandard1.0/Microsoft.CSharp.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/Microsoft.CSharp.dll": {}
         }
       },
       "Microsoft.DiaSymReader.Native/1.4.0": {
@@ -366,6 +379,39 @@
           "System.Threading.Timer": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0"
+        }
+      },
+      "Newtonsoft.Json/9.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.0.1",
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.Dynamic.Runtime": "4.0.11",
+          "System.Globalization": "4.0.11",
+          "System.IO": "4.1.0",
+          "System.Linq": "4.1.0",
+          "System.Linq.Expressions": "4.1.0",
+          "System.ObjectModel": "4.0.12",
+          "System.Reflection": "4.1.0",
+          "System.Reflection.Extensions": "4.0.1",
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Runtime.Serialization.Primitives": "4.1.1",
+          "System.Text.Encoding": "4.0.11",
+          "System.Text.Encoding.Extensions": "4.0.11",
+          "System.Text.RegularExpressions": "4.1.0",
+          "System.Threading": "4.0.11",
+          "System.Threading.Tasks": "4.0.11",
+          "System.Xml.ReaderWriter": "4.0.11",
+          "System.Xml.XDocument": "4.0.11"
+        },
+        "compile": {
+          "lib/netstandard1.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Newtonsoft.Json.dll": {}
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -640,7 +686,7 @@
           "ref/netstandard1.0/System.ComponentModel.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.ComponentModel.dll": {}
         }
       },
       "System.ComponentModel.Annotations/4.3.0": {
@@ -824,7 +870,7 @@
           "ref/netstandard1.3/System.Dynamic.Runtime.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/_._": {}
+          "lib/netstandard1.3/System.Dynamic.Runtime.dll": {}
         }
       },
       "System.Globalization/4.3.0": {
@@ -1620,6 +1666,19 @@
           "lib/netstandard1.3/System.Runtime.Numerics.dll": {}
         }
       },
+      "System.Runtime.Serialization.Primitives/4.1.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Resources.ResourceManager": "4.0.1",
+          "System.Runtime": "4.1.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Runtime.Serialization.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Runtime.Serialization.Primitives.dll": {}
+        }
+      },
       "System.Security.Claims/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -2199,12 +2258,51 @@
           "lib/netstandard1.3/_._": {}
         }
       },
-      "TweetinviAPI/8.0.0.2": {
-        "type": "package"
+      "TweetinviAPI/1.2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Autofac": "4.1.0",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.6/Tweetinvi.Controllers.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Core.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Credentials.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Factories.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Logic.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Security.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Streams.dll": {},
+          "lib/netstandard1.6/Tweetinvi.WebLogic.dll": {},
+          "lib/netstandard1.6/Tweetinvi.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/Tweetinvi.Controllers.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Core.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Credentials.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Factories.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Logic.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Security.dll": {},
+          "lib/netstandard1.6/Tweetinvi.Streams.dll": {},
+          "lib/netstandard1.6/Tweetinvi.WebLogic.dll": {},
+          "lib/netstandard1.6/Tweetinvi.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "Autofac/4.1.0": {
+      "sha512": "PZlRrOjtQ/pyxoA/oDuyFsKlL/toYIxfL4wQvm9TY7lj+/jeQHQIlJ832nwvPFBlOuRZQErHsfsGmo3zW+pCxA==",
+      "type": "package",
+      "path": "Autofac/4.1.0",
+      "files": [
+        "Autofac.4.1.0.nupkg.sha512",
+        "Autofac.nuspec",
+        "lib/net45/Autofac.dll",
+        "lib/net45/Autofac.xml",
+        "lib/netstandard1.1/Autofac.dll",
+        "lib/netstandard1.1/Autofac.xml"
+      ]
+    },
     "Libuv/1.9.1": {
       "sha512": "i3EXFW+ey32dNE+nar909b5ozWbeAplSKR7moM0my7uBb4ipdfhu1ESpyp2YVL3M8Y5qujgNgTa3+aQOmRo3TQ==",
       "type": "package",
@@ -2608,6 +2706,30 @@
         "NETStandard.Library.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt"
+      ]
+    },
+    "Newtonsoft.Json/9.0.1": {
+      "sha512": "U82mHQSKaIk+lpSVCbWYKNavmNH1i5xrExDEquU1i6I5pV6UMOqRnJRSlKO3cMPfcpp0RgDY+8jUXHdQ4IfXvw==",
+      "type": "package",
+      "path": "Newtonsoft.Json/9.0.1",
+      "files": [
+        "Newtonsoft.Json.9.0.1.nupkg.sha512",
+        "Newtonsoft.Json.nuspec",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+wp80+win8+wpa81/Newtonsoft.Json.xml",
+        "tools/install.ps1"
       ]
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -5793,6 +5915,77 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "System.Runtime.Serialization.Primitives/4.1.1": {
+      "sha512": "HZ6Du5QrTG8MNJbf4e4qMO3JRAkIboGT5Fk804uZtg3Gq516S7hAqTm2UZKUHa7/6HUGdVy3AqMQKbns06G/cg==",
+      "type": "package",
+      "path": "System.Runtime.Serialization.Primitives/4.1.1",
+      "files": [
+        "System.Runtime.Serialization.Primitives.4.1.1.nupkg.sha512",
+        "System.Runtime.Serialization.Primitives.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/net46/System.Runtime.Serialization.Primitives.dll",
+        "lib/netcore50/System.Runtime.Serialization.Primitives.dll",
+        "lib/netstandard1.3/System.Runtime.Serialization.Primitives.dll",
+        "lib/portable-net45+win8+wp8+wpa81/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/net46/System.Runtime.Serialization.Primitives.dll",
+        "ref/netcore50/System.Runtime.Serialization.Primitives.dll",
+        "ref/netcore50/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/de/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/es/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/fr/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/it/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/ja/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/ko/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/ru/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/zh-hans/System.Runtime.Serialization.Primitives.xml",
+        "ref/netcore50/zh-hant/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/System.Runtime.Serialization.Primitives.dll",
+        "ref/netstandard1.0/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/de/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/es/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/fr/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/it/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/ja/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/ko/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/ru/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/zh-hans/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.0/zh-hant/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/System.Runtime.Serialization.Primitives.dll",
+        "ref/netstandard1.3/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/de/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/es/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/fr/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/it/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/ja/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/ko/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/ru/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/zh-hans/System.Runtime.Serialization.Primitives.xml",
+        "ref/netstandard1.3/zh-hant/System.Runtime.Serialization.Primitives.xml",
+        "ref/portable-net45+win8+wp8+wpa81/_._",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/aot/lib/netcore50/System.Runtime.Serialization.Primitives.dll"
+      ]
+    },
     "System.Security.Claims/4.3.0": {
       "sha512": "fXHpucaLPZ8OxHCkwDnLDkbJjP+hmQbRENKBr41Qw5pCRjU1hs7FraEou2COmfZB+iDyEC9K8zAUalGzgkuh0w==",
       "type": "package",
@@ -7022,173 +7215,43 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "TweetinviAPI/8.0.0.2": {
-      "sha512": "1wePTlMezLC1FZx2ayxdgw4TK9GLm0V7H/rLkVj2B6/4uu9ERp2t6xRJwV0Ek7QjUaLghjYNvnvdX8USQuZlXg==",
+    "TweetinviAPI/1.2.0.1": {
+      "sha512": "/lO2qCnFGdjOKgLMRpFUwFe4Kveq/ZK0jgyFVjF/9lCU+sMs4o9g3M9QEhf4GlsPyf5WG2BbEAOmXNgXDk49yQ==",
       "type": "package",
-      "path": "TweetinviAPI/8.0.0.2",
+      "path": "TweetinviAPI/1.2.0.1",
       "files": [
-        "BuildProcessTemplates/DefaultTemplate.11.1.xaml",
-        "BuildProcessTemplates/LabDefaultTemplate.11.xaml",
-        "BuildProcessTemplates/UpgradeTemplate.xaml",
-        "Examplinvi/App.config",
-        "Examplinvi/Examplinvi.csproj",
-        "Examplinvi/Examplinvi.csproj.vspscc",
-        "Examplinvi/Program.cs",
-        "Examplinvi/Properties/AssemblyInfo.cs",
-        "Examplinvi/bin/Debug/_._",
-        "Examplinvi/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache",
-        "Examplinvi/obj/x86/Debug/TempPE/_._",
-        "Local.testsettings",
-        "SearchEngine/Properties/AssemblyInfo.cs",
-        "SearchEngine/Properties/Resources.Designer.cs",
-        "SearchEngine/Properties/Resources.resx",
-        "SearchEngine/SearchEngine.csproj",
-        "SearchEngine/SearchEngine.csproj.vspscc",
-        "SearchEngine/UserSearchEngine.cs",
-        "SearchEngine/bin/Debug/_._",
-        "SearchEngine/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache",
-        "SearchEngine/obj/Debug/TempPE/_._",
-        "Testinvi/App.config",
-        "Testinvi/FavouriteTest.cs",
-        "Testinvi/Properties/AssemblyInfo.cs",
-        "Testinvi/StringExtensionTests.cs",
-        "Testinvi/Testinvi.csproj",
-        "Testinvi/Testinvi.csproj.vspscc",
-        "Testinvi/TokenCreatorTest.cs",
-        "Testinvi/TokenSingleton.cs",
-        "Testinvi/TokenTest.cs",
-        "Testinvi/TokenUserTest.cs",
-        "Testinvi/TweetTest.cs",
-        "Testinvi/UserSearchEngineTest.cs",
-        "Testinvi/UserTest.cs",
-        "Testinvi/bin/Debug/_._",
-        "Testinvi/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache",
-        "Testinvi/obj/Debug/TempPE/_._",
-        "TraceAndTestImpact.testsettings",
-        "TweetinCore/Abstract/_._",
-        "TweetinCore/Enum/HttpMethod.cs",
-        "TweetinCore/Enum/ImageSize.cs",
-        "TweetinCore/Enum/StreamState.cs",
-        "TweetinCore/Events/Delegates.cs",
-        "TweetinCore/Interfaces/ICoordinates.cs",
-        "TweetinCore/Interfaces/IGeo.cs",
-        "TweetinCore/Interfaces/IHashTagEntity.cs",
-        "TweetinCore/Interfaces/IMediaEntity.cs",
-        "TweetinCore/Interfaces/IMediaEntitySize.cs",
-        "TweetinCore/Interfaces/IMention.cs",
-        "TweetinCore/Interfaces/IMessage.cs",
-        "TweetinCore/Interfaces/ISearchEngine.cs",
-        "TweetinCore/Interfaces/ISuggestedUserList.cs",
-        "TweetinCore/Interfaces/ITweet.cs",
-        "TweetinCore/Interfaces/ITweetEntities.cs",
-        "TweetinCore/Interfaces/ITwitterObject.cs",
-        "TweetinCore/Interfaces/IUrlEntity.cs",
-        "TweetinCore/Interfaces/IUser.cs",
-        "TweetinCore/Interfaces/IUserMentionEntity.cs",
-        "TweetinCore/Interfaces/IUserSearchEngine.cs",
-        "TweetinCore/Interfaces/TwitterToken/IToken.cs",
-        "TweetinCore/Interfaces/TwitterToken/ITokenCreator.cs",
-        "TweetinCore/Interfaces/TwitterToken/ITokenCredentials.cs",
-        "TweetinCore/Interfaces/TwitterToken/ITokenUser.cs",
-        "TweetinCore/Interfaces/oAuth/IOAuthCredentials.cs",
-        "TweetinCore/Interfaces/oAuth/IOAuthQueryGenerator.cs",
-        "TweetinCore/Interfaces/oAuth/IOAuthQueryParameter.cs",
-        "TweetinCore/Interfaces/oAuth/IOAuthToken.cs",
-        "TweetinCore/Properties/AssemblyInfo.cs",
-        "TweetinCore/TweetinCore.csproj",
-        "TweetinCore/TweetinCore.csproj.vspscc",
-        "TweetinCore/bin/Debug/_._",
-        "TweetinCore/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache",
-        "TweetinCore/obj/Debug/TempPE/_._",
-        "Tweetinvi.sln",
-        "Tweetinvi.vsmdi",
-        "Tweetinvi.vssscc",
-        "Tweetinvi/Geo.cs",
-        "Tweetinvi/Mention.cs",
-        "Tweetinvi/Message.cs",
-        "Tweetinvi/Properties/AssemblyInfo.cs",
-        "Tweetinvi/Properties/Resources.Designer.cs",
-        "Tweetinvi/Properties/Resources.resx",
-        "Tweetinvi/Service References/_._",
-        "Tweetinvi/Stream.cs",
-        "Tweetinvi/SuggestedUserList.cs",
-        "Tweetinvi/TokenUser.cs",
-        "Tweetinvi/TokenUserSettings.cs",
-        "Tweetinvi/Tweet.cs",
-        "Tweetinvi/Tweetinvi.csproj",
-        "Tweetinvi/Tweetinvi.csproj.vspscc",
-        "Tweetinvi/TwitterEntities/HashTagEntity.cs",
-        "Tweetinvi/TwitterEntities/MediaEntity.cs",
-        "Tweetinvi/TwitterEntities/MediaEntitySize.cs",
-        "Tweetinvi/TwitterEntities/TweetEntities.cs",
-        "Tweetinvi/TwitterEntities/UrlEntity.cs",
-        "Tweetinvi/TwitterEntities/UserMentionEntity.cs",
-        "Tweetinvi/TwitterObject.cs",
-        "Tweetinvi/User.cs",
-        "Tweetinvi/UserUtils.cs",
-        "Tweetinvi/Utils/Coordinates.cs",
-        "Tweetinvi/Utils/DictionaryExtension.cs",
-        "Tweetinvi/Utils/ExceptionUtils.cs",
-        "Tweetinvi/Utils/IEnumerableExtension.cs",
-        "Tweetinvi/Utils/ResultGenerator.cs",
-        "Tweetinvi/Utils/ScheduledTask.cs",
-        "Tweetinvi/Utils/StringExtension.cs",
-        "Tweetinvi/Utils/Visitors/RemoveUserSuggestionVisitor.cs",
-        "Tweetinvi/Utils/Visitors/TwitterObjectVisitor.cs",
-        "Tweetinvi/Utils/Visitors/Visitor.cs",
-        "Tweetinvi/bin/Debug/_._",
-        "Tweetinvi/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache",
-        "Tweetinvi/obj/Debug/TempPE/_._",
-        "TweetinviAPI.8.0.0.2.nupkg.sha512",
+        "TweetinviAPI.1.2.0.1.nupkg.sha512",
         "TweetinviAPI.nuspec",
-        "TwitterToken/Properties/AssemblyInfo.cs",
-        "TwitterToken/Properties/Resources.Designer.cs",
-        "TwitterToken/Properties/Resources.resx",
-        "TwitterToken/Token.cs",
-        "TwitterToken/TokenCreator.cs",
-        "TwitterToken/TokenCredentials.cs",
-        "TwitterToken/TwitterToken.csproj",
-        "TwitterToken/TwitterToken.csproj.vspscc",
-        "TwitterToken/bin/Debug/_._",
-        "TwitterToken/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache",
-        "TwitterToken/obj/Debug/TempPE/_._",
-        "UILibrary/Microsoft.Practices.Prism.dll",
-        "UILibrary/Model/_._",
-        "UILibrary/Properties/AssemblyInfo.cs",
-        "UILibrary/Properties/Resources.Designer.cs",
-        "UILibrary/Properties/Resources.resx",
-        "UILibrary/Properties/Settings.Designer.cs",
-        "UILibrary/Properties/Settings.settings",
-        "UILibrary/Resources/TwitterOfficialIcon.png",
-        "UILibrary/UILibrary.csproj",
-        "UILibrary/UILibrary.csproj.vspscc",
-        "UILibrary/View/ValidateApplicationCaptchaWindow.xaml",
-        "UILibrary/View/ValidateApplicationCaptchaWindow.xaml.cs",
-        "UILibrary/ViewModel/ValidateApplicationCaptchaViewModel.cs",
-        "UILibrary/bin/Debug/_._",
-        "UILibrary/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache",
-        "UILibrary/obj/Debug/TempPE/_._",
-        "UILibrary/obj/Debug/UILibrary_MarkupCompile.i.cache",
-        "UILibrary/obj/Debug/View/ValidateApplicationCaptchaWindow.g.i.cs",
-        "oAuthConnection/OAuthCredentials.cs",
-        "oAuthConnection/OAuthQueryParameter.cs",
-        "oAuthConnection/OAuthToken.cs",
-        "oAuthConnection/OAuthWebRequestGenerator.cs",
-        "oAuthConnection/Properties/AssemblyInfo.cs",
-        "oAuthConnection/Utils/OAuthConnectionType.cs",
-        "oAuthConnection/Utils/StringFormater.cs",
-        "oAuthConnection/bin/Debug/_._",
-        "oAuthConnection/oAuthConnection.csproj",
-        "oAuthConnection/oAuthConnection.csproj.vspscc",
-        "oAuthConnection/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache",
-        "oAuthConnection/obj/Debug/TempPE/_._",
-        "tools/_._"
+        "lib/net40/Tweetinvi.dll",
+        "lib/net45/Tweetinvi.dll",
+        "lib/netstandard1.6/Tweetinvi.Controllers.dll",
+        "lib/netstandard1.6/Tweetinvi.Core.dll",
+        "lib/netstandard1.6/Tweetinvi.Credentials.dll",
+        "lib/netstandard1.6/Tweetinvi.Factories.dll",
+        "lib/netstandard1.6/Tweetinvi.Logic.dll",
+        "lib/netstandard1.6/Tweetinvi.Security.dll",
+        "lib/netstandard1.6/Tweetinvi.Streams.dll",
+        "lib/netstandard1.6/Tweetinvi.WebLogic.dll",
+        "lib/netstandard1.6/Tweetinvi.dll",
+        "lib/portable-net40+sl5+wp80+win8+wpa81/Tweetinvi.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Tweetinvi.Controllers.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Tweetinvi.Core.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Tweetinvi.Credentials.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Tweetinvi.Factories.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Tweetinvi.Logic.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Tweetinvi.Security.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Tweetinvi.Streams.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Tweetinvi.WebLogic.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Tweetinvi.dll",
+        "tools/Cheatsheet.cs",
+        "tools/install.ps1"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
-      "TweetinviAPI"
+      "Newtonsoft.Json >= 9.0.1",
+      "TweetinviAPI >= 1.2.0.1"
     ],
     ".NETCoreApp,Version=v1.1": [
       "Microsoft.FSharp.Core.netcore >= 1.0.0-alpha-160629",

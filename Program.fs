@@ -14,23 +14,9 @@
         - Post once to twitter the images with a time *)
 
 
-open FSharp.Configuration
 open Tweetinvi
+open System
 open System.IO
-
-
-(*  YAML Config *)
-
-[<Literal>] // This allows the bind at compile time
-let YamlFile = "/Users/andresv/Projects/river/river/config.yaml" // By using this provider I can read yaml
-
-type ConfigFile = YamlConfig<YamlFile>
-let data = ConfigFile()
-data.Load(YamlFile) // Load is important, at defining the provider only the schema gets loaded
-
-// Sorting by date | F# Sequence to generic list
-data.waiting <- new System.Collections.Generic.List<ConfigFile.waiting_Item_Type>(data.waiting |> Seq.sortBy (fun x -> x.date))
-data.Save(YamlFile)
 
 
 (*  Twitter *)
@@ -50,7 +36,7 @@ let tokenSecret = "DboMLBHwRBVW2QQmpEXPBbs1UEMIeFkHNvEgxJT4q8Z8Z"
 Tweetinvi.Auth.SetUserCredentials(key, keySecret, token, tokenSecret) |> ignore
 
 // Image upload
-let image = File.ReadAllBytes("/Users/andresv/Projects/river/river/Test/primer-corruption.png")
+let image = File.ReadAllBytes((Directory.GetCurrentDirectory()) + "/test-images/primer-corruption.png")
 let imageMedia = Upload.UploadImage(image)
 
 // The tweet
@@ -64,4 +50,5 @@ let tweet = Tweet.PublishTweet("This tweet is another test", parameters)
 [<EntryPoint>]
 let main argv =
     printfn "%A" argv
+    printfn "%s" (Directory.GetCurrentDirectory())
     0 // Exit code
