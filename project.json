@@ -31,6 +31,5 @@
   "dependencies": {
     "TweetinviAPI": "1.2.0.1",
     "Chiron": "6.2.1"
-    // "Newtonsoft.Json": "9.0.1",
   }
 }

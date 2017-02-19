@@ -8,7 +8,7 @@
     TO DO
         x Learn to Yaml (doesn't work on netcore)
         x Learn to tweet images/text
-        - Learn to JSON
+        - Learn to JSON via Chiron
         - Scan and list current folder for images
         - CRUD a config file based on images found
         - Read from a config file with time to post
