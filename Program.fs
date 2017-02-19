@@ -28,6 +28,7 @@
 
 open System
 open System.IO
+
 open Tweetinvi
 open Chiron
 
@@ -53,22 +54,44 @@ open Chiron
 // let tweet = Tweet.PublishTweet("This tweet is a #test", parameters)
 
 
+(* CHIRON *)
+
+// let formatExample =
+//         Object <| Map.ofList [
+//             "name", String "Marcus Griep"
+//             "isAdmin", Bool true
+//             "numbers", Array [ Number 1m; Number 2m; String "Fizz" ] ]
+
+// let formatCompact = Json.format formatExample
+// let formatPretty = Json.formatWith JsonFormattingOptions.Pretty formatExample
+
+// printfn "%s\n" formatCompact
+// printfn "%s\n" formatPretty
+
+
+
+// Returns all files and folders.
+let rec allFiles dirs =
+    match dirs with
+    | dirs when Seq.isEmpty dirs -> Seq.empty
+    | _ -> seq { yield! dirs |> Seq.collect Directory.EnumerateFiles
+                 yield! dirs |> Seq.collect Directory.EnumerateDirectories |> allFiles }
+
+
+
 (*  MAIN *)
 [<EntryPoint>]
 let main argv =
 
-    printfn "Arguments -> %A" argv
-    printfn "Current directory -> %s" (Directory.GetCurrentDirectory())
+    let dir = (Directory.GetCurrentDirectory())
 
-    let formatExample =
-        Object <| Map.ofList [
-            "name", String "Marcus Griep"
-            "isAdmin", Bool true
-            "numbers", Array [ Number 1m; Number 2m; String "Fizz" ] ]
 
-    let formatCompact = Json.format formatExample
-    let formatPretty = Json.formatWith JsonFormattingOptions.Pretty formatExample
+    printfn "Arguments %A" argv
+    printfn "Current directory %s\n" dir
 
-    printf "%s" formatPretty
+
+    // Print all files and folders
+    [| dir |] |> allFiles |> Seq.iter (fun x -> printfn "%s" x)
+
 
     0 // Exit code
