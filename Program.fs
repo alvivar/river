@@ -5,13 +5,12 @@
     By twitter.com/matnesis
 
 
-    TO DO
-        x Learn to Yaml (doesn't work on netcore)
-        x Learn to tweet images/text
-        - Learn to JSON via Chiron
-        - Scan and list current folder for images
+    Working on
+        x Learning to Yaml (doesn't work on netcore)
+        x Learning to tweet images/text
+        x Scan and list current folder for images
         - CRUD a config file based on images found
-        - Read from a config file with time to post
+        - Learn to JSON via Chiron
         - Chat though console to communicate with the bot
             - Explain defaults and commands
             - Set tweets per day
@@ -19,11 +18,12 @@
             - Sort queue
             - Set fixed schedule mode
             - Exit
+        - Read from a config file with time to post
+        - Post once to twitter withing the time scheduled
         - Best time to tweet
             - Followers, following analysis
             - Interactions analysis
-            - Prediction model
-        - Post once to twitter withing the time scheduled *)
+            - Prediction model *)
 
 
 open System
@@ -91,7 +91,7 @@ let main argv =
 
 
     // Print all files and folders
-    [| dir |] |> allFiles |> Seq.iter (fun x -> printfn "%s" x)
+    [| dir |] |> allFiles |> Seq.iter (fun x -> printfn "> %s" x)
 
 
     0 // Exit code
