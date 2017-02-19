@@ -3,6 +3,15 @@
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.1": {
+      "Aether/8.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net35/Aether.dll": {}
+        },
+        "runtime": {
+          "lib/net35/Aether.dll": {}
+        }
+      },
       "Autofac/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -14,6 +23,30 @@
         },
         "runtime": {
           "lib/netstandard1.1/Autofac.dll": {}
+        }
+      },
+      "Chiron/6.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Aether": "[8.0.2, 9.0.0)",
+          "FParsec": "[1.0.0, 2.0.0)"
+        },
+        "compile": {
+          "lib/net40/Chiron.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Chiron.dll": {}
+        }
+      },
+      "FParsec/1.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net40-client/FParsec.dll": {},
+          "lib/net40-client/FParsecCS.dll": {}
+        },
+        "runtime": {
+          "lib/net40-client/FParsec.dll": {},
+          "lib/net40-client/FParsecCS.dll": {}
         }
       },
       "Libuv/1.9.1": {
@@ -253,12 +286,57 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "Microsoft.NETCore.Portable.Compatibility/1.0.1-rc2-24027": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Runtime": "1.0.2-rc2-24027"
+        },
+        "compile": {
+          "ref/netstandard1.0/System.ComponentModel.DataAnnotations.dll": {},
+          "ref/netstandard1.0/System.Core.dll": {},
+          "ref/netstandard1.0/System.Net.dll": {},
+          "ref/netstandard1.0/System.Numerics.dll": {},
+          "ref/netstandard1.0/System.Runtime.Serialization.dll": {},
+          "ref/netstandard1.0/System.ServiceModel.Web.dll": {},
+          "ref/netstandard1.0/System.ServiceModel.dll": {},
+          "ref/netstandard1.0/System.Windows.dll": {},
+          "ref/netstandard1.0/System.Xml.Linq.dll": {},
+          "ref/netstandard1.0/System.Xml.Serialization.dll": {},
+          "ref/netstandard1.0/System.Xml.dll": {},
+          "ref/netstandard1.0/System.dll": {},
+          "ref/netstandard1.0/mscorlib.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.ComponentModel.DataAnnotations.dll": {},
+          "lib/netstandard1.0/System.Core.dll": {},
+          "lib/netstandard1.0/System.Net.dll": {},
+          "lib/netstandard1.0/System.Numerics.dll": {},
+          "lib/netstandard1.0/System.Runtime.Serialization.dll": {},
+          "lib/netstandard1.0/System.ServiceModel.Web.dll": {},
+          "lib/netstandard1.0/System.ServiceModel.dll": {},
+          "lib/netstandard1.0/System.Windows.dll": {},
+          "lib/netstandard1.0/System.Xml.Linq.dll": {},
+          "lib/netstandard1.0/System.Xml.Serialization.dll": {},
+          "lib/netstandard1.0/System.Xml.dll": {},
+          "lib/netstandard1.0/System.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Runtime/1.0.2-rc2-24027": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.2-rc2-24027",
+          "Microsoft.NETCore.Runtime.Native": "1.0.2-rc2-24027"
+        }
+      },
       "Microsoft.NETCore.Runtime.CoreCLR/1.1.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Jit": "1.1.0",
           "Microsoft.NETCore.Windows.ApiSets": "1.0.1"
         }
+      },
+      "Microsoft.NETCore.Runtime.Native/1.0.2-rc2-24027": {
+        "type": "package"
       },
       "Microsoft.NETCore.Targets/1.1.0": {
         "type": "package",
@@ -2290,6 +2368,21 @@
     }
   },
   "libraries": {
+    "Aether/8.0.2": {
+      "sha512": "Rv2wNs6jQZ9ADo+0QDnSG8aMHB9KOhULCrN1l1nzUS57F6IReBWsx17A/UV0691wV3fQVbe/SRBdoKDjTv1v+w==",
+      "type": "package",
+      "path": "Aether/8.0.2",
+      "files": [
+        "Aether.8.0.2.nupkg.sha512",
+        "Aether.nuspec",
+        "lib/net35/Aether.dll",
+        "lib/net35/Aether.pdb",
+        "lib/net35/Aether.xml",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/Aether.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/Aether.pdb",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/Aether.xml"
+      ]
+    },
     "Autofac/4.1.0": {
       "sha512": "PZlRrOjtQ/pyxoA/oDuyFsKlL/toYIxfL4wQvm9TY7lj+/jeQHQIlJ832nwvPFBlOuRZQErHsfsGmo3zW+pCxA==",
       "type": "package",
@@ -2301,6 +2394,34 @@
         "lib/net45/Autofac.xml",
         "lib/netstandard1.1/Autofac.dll",
         "lib/netstandard1.1/Autofac.xml"
+      ]
+    },
+    "Chiron/6.2.1": {
+      "sha512": "yAFxEfielBikjcqKZULvaat4WC9hl9EUaGvMoL7xY3sd1ip1G37eGbIjKVXceu3ZorSq20ajB7SydfWg8bYPeg==",
+      "type": "package",
+      "path": "Chiron/6.2.1",
+      "files": [
+        "Chiron.6.2.1.nupkg.sha512",
+        "Chiron.nuspec",
+        "lib/net40/Chiron.dll",
+        "lib/net40/Chiron.pdb",
+        "lib/net40/Chiron.xml",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/Chiron.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/Chiron.pdb",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/Chiron.xml"
+      ]
+    },
+    "FParsec/1.0.1": {
+      "sha512": "cvaxMYOPuSsS3A0TWKQ/LIGYZQTQENxu6WLlwq3oTbCyF+t0OS9wPoq3ewf11U09S39NgVEljVCxccdU30L4PA==",
+      "type": "package",
+      "path": "FParsec/1.0.1",
+      "files": [
+        "FParsec.1.0.1.nupkg.sha512",
+        "FParsec.nuspec",
+        "lib/net40-client/FParsec.XML",
+        "lib/net40-client/FParsec.dll",
+        "lib/net40-client/FParsecCS.XML",
+        "lib/net40-client/FParsecCS.dll"
       ]
     },
     "Libuv/1.9.1": {
@@ -2548,6 +2669,99 @@
         "runtime.json"
       ]
     },
+    "Microsoft.NETCore.Portable.Compatibility/1.0.1-rc2-24027": {
+      "sha512": "nmnHPnAyp2QV31KGNfANo90Y8zs8LrNSStsOEoPOEYAhYLNyn4C8o5DF8AEhgtsdYaOWIpY6aSREVob3xFC34w==",
+      "type": "package",
+      "path": "Microsoft.NETCore.Portable.Compatibility/1.0.1-rc2-24027",
+      "files": [
+        "Microsoft.NETCore.Portable.Compatibility.1.0.1-rc2-24027.nupkg.sha512",
+        "Microsoft.NETCore.Portable.Compatibility.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/net45/_._",
+        "lib/netcore50/System.ComponentModel.DataAnnotations.dll",
+        "lib/netcore50/System.Core.dll",
+        "lib/netcore50/System.Net.dll",
+        "lib/netcore50/System.Numerics.dll",
+        "lib/netcore50/System.Runtime.Serialization.dll",
+        "lib/netcore50/System.ServiceModel.Web.dll",
+        "lib/netcore50/System.ServiceModel.dll",
+        "lib/netcore50/System.Windows.dll",
+        "lib/netcore50/System.Xml.Linq.dll",
+        "lib/netcore50/System.Xml.Serialization.dll",
+        "lib/netcore50/System.Xml.dll",
+        "lib/netcore50/System.dll",
+        "lib/netstandard1.0/System.ComponentModel.DataAnnotations.dll",
+        "lib/netstandard1.0/System.Core.dll",
+        "lib/netstandard1.0/System.Net.dll",
+        "lib/netstandard1.0/System.Numerics.dll",
+        "lib/netstandard1.0/System.Runtime.Serialization.dll",
+        "lib/netstandard1.0/System.ServiceModel.Web.dll",
+        "lib/netstandard1.0/System.ServiceModel.dll",
+        "lib/netstandard1.0/System.Windows.dll",
+        "lib/netstandard1.0/System.Xml.Linq.dll",
+        "lib/netstandard1.0/System.Xml.Serialization.dll",
+        "lib/netstandard1.0/System.Xml.dll",
+        "lib/netstandard1.0/System.dll",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "ref/net45/_._",
+        "ref/netcore50/System.ComponentModel.DataAnnotations.dll",
+        "ref/netcore50/System.Core.dll",
+        "ref/netcore50/System.Net.dll",
+        "ref/netcore50/System.Numerics.dll",
+        "ref/netcore50/System.Runtime.Serialization.dll",
+        "ref/netcore50/System.ServiceModel.Web.dll",
+        "ref/netcore50/System.ServiceModel.dll",
+        "ref/netcore50/System.Windows.dll",
+        "ref/netcore50/System.Xml.Linq.dll",
+        "ref/netcore50/System.Xml.Serialization.dll",
+        "ref/netcore50/System.Xml.dll",
+        "ref/netcore50/System.dll",
+        "ref/netcore50/mscorlib.dll",
+        "ref/netstandard1.0/System.ComponentModel.DataAnnotations.dll",
+        "ref/netstandard1.0/System.Core.dll",
+        "ref/netstandard1.0/System.Net.dll",
+        "ref/netstandard1.0/System.Numerics.dll",
+        "ref/netstandard1.0/System.Runtime.Serialization.dll",
+        "ref/netstandard1.0/System.ServiceModel.Web.dll",
+        "ref/netstandard1.0/System.ServiceModel.dll",
+        "ref/netstandard1.0/System.Windows.dll",
+        "ref/netstandard1.0/System.Xml.Linq.dll",
+        "ref/netstandard1.0/System.Xml.Serialization.dll",
+        "ref/netstandard1.0/System.Xml.dll",
+        "ref/netstandard1.0/System.dll",
+        "ref/netstandard1.0/mscorlib.dll",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "runtimes/aot/lib/netcore50/System.ComponentModel.DataAnnotations.dll",
+        "runtimes/aot/lib/netcore50/System.Core.dll",
+        "runtimes/aot/lib/netcore50/System.Net.dll",
+        "runtimes/aot/lib/netcore50/System.Numerics.dll",
+        "runtimes/aot/lib/netcore50/System.Runtime.Serialization.dll",
+        "runtimes/aot/lib/netcore50/System.ServiceModel.Web.dll",
+        "runtimes/aot/lib/netcore50/System.ServiceModel.dll",
+        "runtimes/aot/lib/netcore50/System.Windows.dll",
+        "runtimes/aot/lib/netcore50/System.Xml.Linq.dll",
+        "runtimes/aot/lib/netcore50/System.Xml.Serialization.dll",
+        "runtimes/aot/lib/netcore50/System.Xml.dll",
+        "runtimes/aot/lib/netcore50/System.dll",
+        "runtimes/aot/lib/netcore50/mscorlib.dll"
+      ]
+    },
+    "Microsoft.NETCore.Runtime/1.0.2-rc2-24027": {
+      "sha512": "z/R3npq0vJi1urIComaxGXX2CCfv27N78pNa3dMG4fyCQZA6u50v8ttWFnPV1caSN1O5JvDavqpBXVT1FdHcrA==",
+      "type": "package",
+      "path": "Microsoft.NETCore.Runtime/1.0.2-rc2-24027",
+      "files": [
+        "Microsoft.NETCore.Runtime.1.0.2-rc2-24027.nupkg.sha512",
+        "Microsoft.NETCore.Runtime.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt"
+      ]
+    },
     "Microsoft.NETCore.Runtime.CoreCLR/1.1.0": {
       "sha512": "SouH+AMJo35yrWUxz/isAFwzP0q9E4UuiZQfp0ffxOclEsMwhrhyon0DvcwpDWlpdFZ4fNYNy37vT449zzcaGA==",
       "type": "package",
@@ -2558,6 +2772,17 @@
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "runtime.json"
+      ]
+    },
+    "Microsoft.NETCore.Runtime.Native/1.0.2-rc2-24027": {
+      "sha512": "aUtA5PJE7rGp0v6aKdYefj8GGpbf5nsND7xlMzPf0+n00YeYuM65sQtrd3TwtQlfmN4J57d40wfzEM3suVwWlg==",
+      "type": "package",
+      "path": "Microsoft.NETCore.Runtime.Native/1.0.2-rc2-24027",
+      "files": [
+        "Microsoft.NETCore.Runtime.Native.1.0.2-rc2-24027.nupkg.sha512",
+        "Microsoft.NETCore.Runtime.Native.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt"
       ]
     },
     "Microsoft.NETCore.Targets/1.1.0": {
@@ -7250,12 +7475,13 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "Newtonsoft.Json >= 9.0.1",
+      "Chiron >= 6.2.1",
       "TweetinviAPI >= 1.2.0.1"
     ],
     ".NETCoreApp,Version=v1.1": [
       "Microsoft.FSharp.Core.netcore >= 1.0.0-alpha-160629",
-      "Microsoft.NETCore.App >= 1.1.0"
+      "Microsoft.NETCore.App >= 1.1.0",
+      "Microsoft.NETCore.Portable.Compatibility >= 1.0.1-rc2-24027"
     ]
   },
   "tools": {
