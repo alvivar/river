@@ -1,6 +1,6 @@
 # River
 
-**A bot that tweets by dropping images into a folder!**
+**A bot that tweets at the best times when you drop images into a folder!**
 
 *Doesn't work yet, work in progress!*
 
