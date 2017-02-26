@@ -10,7 +10,7 @@
         x Learning to tweet images/text
         x Scan and list current folder for images
         x Learn to JSON with Chiron
-        - CRUD a config file based on images found
+        x CRUD a config file
         - Chat though console to communicate with the bot
             - help | explain defaults and commands
             - scan <dir> | Analyzes a folder and create a config file with the defaults
@@ -22,7 +22,7 @@
             - exit | quit | die
             - schedule auto | Set auto schedule mode using tweets per day
         - Read from a config file with time to post
-        - Waita and tweet withing the schedule
+        - Wait and tweet withing the schedule
         - Best time to tweet
             - Followers, following analysis
             - Interactions analysis
@@ -62,24 +62,34 @@ open Chiron
 
 // 'json' is a computation expression by Chiron to define a serializable file.
 type ConfigFile =
-    { dailyTweets: int
-      files : string array }
+    { isActive : bool
+      dailyTweets : int
+      filesPending : string array
+      filesSent : string array }
     static member ToJson (x : ConfigFile) = json {
-        do! Json.write "files" x.files
+        do! Json.write "isActive" x.isActive
         do! Json.write "dailyTweets" x.dailyTweets
+        do! Json.write "filesPending" x.filesPending
+        do! Json.write "filesSent" x.filesPending
     }
     static member FromJson (_ : ConfigFile) = json {
-        let! fs = Json.read "files"
+        let! at = Json.read "isActive"
         let! dt = Json.read "dailyTweets"
-        return { files = fs
-                 dailyTweets = dt }
+        let! fp = Json.read "filesPending"
+        let! fs = Json.read "filesSent"
+        return { isActive = at
+                 dailyTweets = dt
+                 filesPending = fp
+                 filesSent = fs }
     }
 
 
 // Returns the default configuration.
 let defaultConfig =
-    { dailyTweets = 5
-      files = [||] }
+    { isActive = false
+      dailyTweets = 5
+      filesPending = [||]
+      filesSent = [||] }
 
 
 // Returns all files and folders.
@@ -106,25 +116,26 @@ let main argv =
     printfn "Current directory %s\n" dir
 
 
-    // Read or create the config file
+    (* Config *)
+
+    // Read it or default
     let cfgTxt =
         if File.Exists cfgFile
         then File.ReadAllText cfgFile
         else defaultConfig |> Json.serialize |> Json.format
 
+    // Update it
     do File.WriteAllText(cfgFile, cfgTxt)
 
-    // Parse the current config
-    let cfg : ConfigFile = cfgTxt |> Json.parse |> Json.deserialize
+    // Parse it
+    let config : ConfigFile = cfgTxt |> Json.parse |> Json.deserialize
 
-
-    // Prints the config Json
-    let jsn =
-        cfg
+    // Print it
+    let json =
+        config
         |> Json.serialize
         |> Json.formatWith JsonFormattingOptions.Pretty
-
-    printfn "%s" jsn
+    printfn "%s" json
 
 
     // All files and directories
