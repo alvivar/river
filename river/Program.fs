@@ -119,7 +119,7 @@ let main argv =
     //     Object <| Map.ofList [
     //         "files", flist ]
 
-    // printfn "%s" jfiles
+    printfn "%s" jfiles
 
 
     0 // Exit code
