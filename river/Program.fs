@@ -70,8 +70,7 @@ type ConfigFile =
         do! Json.write "isActive" x.isActive
         do! Json.write "dailyTweets" x.dailyTweets
         do! Json.write "filesPending" x.filesPending
-        do! Json.write "filesSent" x.filesPending
-    }
+        do! Json.write "filesSent" x.filesPending }
     static member FromJson (_ : ConfigFile) = json {
         let! at = Json.read "isActive"
         let! dt = Json.read "dailyTweets"
@@ -80,19 +79,18 @@ type ConfigFile =
         return { isActive = at
                  dailyTweets = dt
                  filesPending = fp
-                 filesSent = fs }
-    }
+                 filesSent = fs } }
 
 
 // Returns the default configuration.
 let defaultConfig =
     { isActive = false
-      dailyTweets = 5
+      dailyTweets = 3
       filesPending = [||]
       filesSent = [||] }
 
 
-// Returns all files and folders.
+// Returns all files and folders from files and folders.
 let rec allFiles dirs =
     match dirs with
     | dirs when Seq.isEmpty dirs -> Seq.empty
@@ -118,13 +116,13 @@ let main argv =
 
     (* Config *)
 
-    // Read it or default
+    // Read the file or default
     let cfgTxt =
         if File.Exists cfgFile
         then File.ReadAllText cfgFile
         else defaultConfig |> Json.serialize |> Json.format
 
-    // Update it
+    // Update the file
     do File.WriteAllText(cfgFile, cfgTxt)
 
     // Parse it
@@ -139,7 +137,7 @@ let main argv =
 
 
     // All files and directories
-    let alfs = [| dir |] |> allFiles |> Array.ofSeq
+    let allfs = [| dir |] |> allFiles |> Array.ofSeq
 
 
     0 // Exit code
