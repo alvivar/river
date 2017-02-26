@@ -9,7 +9,7 @@
         x Learning to Yaml (.Configuration doesn't work on netcore)
         x Learning to tweet images/text
         x Scan and list current folder for images
-        - Learn to JSON with Chiron
+        x Learn to JSON with Chiron
         - CRUD a config file based on images found
         - Chat though console to communicate with the bot
             - help | explain defaults and commands
@@ -60,31 +60,29 @@ open Chiron
 
 (* CHIRON *)
 
-let formatExample =
-        Object <| Map.ofList [
-            "name", String "Marcus Griep"
-            "isAdmin", Bool true
-            "numbers", Array [ Number 1m; Number 2m; String "Fizz" ] ]
-
-// let formatCompact = Json.format formatExample
-// let formatPretty = Json.formatWith JsonFormattingOptions.Pretty formatExample
-
-// printfn "%s\n" formatCompact
-// printfn "%s\n" formatPretty
-
-
-type Files =
-    { files : string array }
-    static member ToJson (x : Files) = json {
+// 'json' is a computation expression by Chiron to define a serializable file.
+type ConfigFile =
+    { dailyTweets: int
+      files : string array }
+    static member ToJson (x : ConfigFile) = json {
         do! Json.write "files" x.files
+        do! Json.write "dailyTweets" x.dailyTweets
     }
-    static member FromJson (_ : Files) = json {
+    static member FromJson (_ : ConfigFile) = json {
         let! fs = Json.read "files"
-        return { files = fs }
+        let! dt = Json.read "dailyTweets"
+        return { files = fs
+                 dailyTweets = dt }
     }
 
 
-// Returns a sequence with all files and folders.
+// Returns the default configuration.
+let defaultConfig =
+    { dailyTweets = 5
+      files = [||] }
+
+
+// Returns all files and folders.
 let rec allFiles dirs =
     match dirs with
     | dirs when Seq.isEmpty dirs -> Seq.empty
@@ -96,30 +94,41 @@ let rec allFiles dirs =
 [<EntryPoint>]
 let main argv =
 
+    // Files
     let dir = (Directory.GetCurrentDirectory())
 
+    let cfgName = "config.json";
+    let cfgFile = Path.Combine [| dir ; cfgName |]
 
+
+    // Header
     printfn "Arguments %A" argv
     printfn "Current directory %s\n" dir
 
 
-    // Print all files and folders
-    // [| dir |]
-    //     |> allFiles
-    //     |> Seq.iter (fun x -> printfn "> %s" x)
+    // Read or create the config file
+    let cfgTxt =
+        if File.Exists cfgFile
+        then File.ReadAllText cfgFile
+        else defaultConfig |> Json.serialize |> Json.format
 
-    let jfiles =
-        { files = [| dir |] |> allFiles |> Array.ofSeq }
+    do File.WriteAllText(cfgFile, cfgTxt)
+
+    // Parse the current config
+    let cfg : ConfigFile = cfgTxt |> Json.parse |> Json.deserialize
+
+
+    // Prints the config Json
+    let jsn =
+        cfg
         |> Json.serialize
-        |> Json.format
+        |> Json.formatWith JsonFormattingOptions.Pretty
 
-    // let flist = [| dir |] |> allFiles |> Array.ofSeq |> Json.m
+    printfn "%s" jsn
 
-    // let formatExample =
-    //     Object <| Map.ofList [
-    //         "files", flist ]
 
-    printfn "%s" jfiles
+    // All files and directories
+    let alfs = [| dir |] |> allFiles |> Array.ofSeq
 
 
     0 // Exit code
