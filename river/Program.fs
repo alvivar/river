@@ -37,6 +37,9 @@ open Tweetinvi
 open Chiron
 
 
+let R = System.Random()
+
+
 (* Twitter *)
 
 // type TweetData = { message : string; image: string; publish_date: string; }
@@ -98,7 +101,7 @@ let (|Help|Enable|Disable|Exit|None|) input =
     | "help" | "h" -> Help
     | "enable" | "activate" | "on" -> Enable
     | "disable" | "deactivate" | "off" -> Disable
-    | "exit" | "quit" -> Exit
+    | "exit" | "quit" | "die" -> Exit
     | _ -> None
 
 // Active record for actions.
@@ -109,7 +112,6 @@ let (|Scan|Schedule|Sort|None|) input =
     | "sort" | "order" -> Sort
     | _ -> None
 
-let R = System.Random()
 
 // Returns a positive affirmative answer.
 let positiveAnswer =
@@ -143,7 +145,7 @@ let sort =
 
 
 // Executes the action and responds!
-let talk input =
+let chatResponse input =
     match input with
     | Help -> help
     | Enable -> enable
@@ -152,8 +154,7 @@ let talk input =
     | Scan -> scan
     | Schedule -> schedule
     | Sort -> sort
-    | None -> "none"
-    | _ -> ""
+    | None -> ":O?"
 
 
 // Returns all files and folders from files and folders.
