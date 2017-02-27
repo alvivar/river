@@ -113,12 +113,36 @@ let (|Scan|Schedule|Sort|None|) input =
     | _ -> None
 
 
+// Emoticons
+let positiveEmoticon =
+    match R.Next(3) with
+    | 0 -> ":D"
+    | 1 -> ":)"
+    | 2 -> ":P"
+    | _ -> ":?"
+
+let negativeEmoticon =
+    match R.Next(3) with
+    | 0 -> ":("
+    | 1 -> ":O"
+    | 2 -> ":C"
+    | _ -> ":?"
+
 // Returns a positive affirmative answer.
 let positiveAnswer =
     match R.Next(2) with
-    | 0 -> "Ok"
-    | 1 -> "Done"
-    | _ -> "?"
+    | 0 -> "Ok " + positiveEmoticon
+    | 1 -> "Done " + positiveEmoticon
+    | _ -> ":?"
+
+
+// Hi
+let salute =
+    match R.Next(2) with
+    | 0 -> "Hi! " + positiveEmoticon
+    | 1 -> "Hello " + positiveEmoticon
+    | 2 -> "Hey " + positiveEmoticon
+    | _ -> ":?"
 
 
 // All actions and commands!
@@ -154,7 +178,7 @@ let chatResponse input =
     | Scan -> scan
     | Schedule -> schedule
     | Sort -> sort
-    | None -> ":O?"
+    | None -> ":?"
 
 
 // Returns all files and folders from files and folders.
