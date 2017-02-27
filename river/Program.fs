@@ -37,7 +37,7 @@ open Tweetinvi
 open Chiron
 
 
-(*  Twitter *)
+(* Twitter *)
 
 // type TweetData = { message : string; image: string; publish_date: string; }
 
@@ -58,9 +58,9 @@ open Chiron
 // let tweet = Tweet.PublishTweet("This tweet is a #test", parameters)
 
 
-(* CHIRON *)
+(* Chiron *)
 
-// 'json' is a computation expression by Chiron to define a serializable file.
+// Computation expression that defines a serializable Json Chiron type.
 type ConfigFile =
     { isActive : bool
       dailyTweets : int
@@ -90,6 +90,72 @@ let defaultConfig =
       filesSent = [||] }
 
 
+(* Chat system *)
+
+// Active record for commands.
+let (|Help|Enable|Disable|Exit|None|) input =
+    match input with
+    | "help" | "h" -> Help
+    | "enable" | "activate" | "on" -> Enable
+    | "disable" | "deactivate" | "off" -> Disable
+    | "exit" | "quit" -> Exit
+    | _ -> None
+
+// Active record for actions.
+let (|Scan|Schedule|Sort|None|) input =
+    match input with
+    | "scan" | "analyze" -> Scan
+    | "schedule" -> Schedule
+    | "sort" | "order" -> Sort
+    | _ -> None
+
+let R = System.Random()
+
+// Returns a positive affirmative answer.
+let positiveAnswer =
+    match R.Next(2) with
+    | 0 -> "Ok"
+    | 1 -> "Done"
+    | _ -> "?"
+
+
+// All actions and commands!
+let help =
+    positiveAnswer
+
+let enable =
+    positiveAnswer
+
+let disable =
+    positiveAnswer
+
+let exit =
+    positiveAnswer
+
+let scan =
+    positiveAnswer
+
+let schedule =
+    positiveAnswer
+
+let sort =
+    positiveAnswer
+
+
+// Executes the action and responds!
+let talk input =
+    match input with
+    | Help -> help
+    | Enable -> enable
+    | Disable -> disable
+    | Exit -> exit
+    | Scan -> scan
+    | Schedule -> schedule
+    | Sort -> sort
+    | None -> "none"
+    | _ -> ""
+
+
 // Returns all files and folders from files and folders.
 let rec allFiles dirs =
     match dirs with
@@ -98,7 +164,7 @@ let rec allFiles dirs =
                  yield! dirs |> Seq.collect Directory.EnumerateDirectories |> allFiles }
 
 
-(*  MAIN *)
+(* Main *)
 [<EntryPoint>]
 let main argv =
 
@@ -109,9 +175,12 @@ let main argv =
     let cfgFile = Path.Combine [| dir ; cfgName |]
 
 
-    // Header
+    (* Header *)
+
+    printfn "River v0.1 | The best twitter bot ever\n"
     printfn "Arguments %A" argv
     printfn "Current directory %s\n" dir
+    printfn "What's up?\n"
 
 
     (* Config *)
@@ -133,7 +202,7 @@ let main argv =
         config
         |> Json.serialize
         |> Json.formatWith JsonFormattingOptions.Pretty
-    printfn "%s" json
+    printfn "Current config.js \n%s" json
 
 
     // All files and directories
