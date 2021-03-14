@@ -1,0 +1,15 @@
+mon] 11a 1p 3p
+tue] 1p 3p 5p
+wed] 3p 5p 7p
+thu] 5p 7p 9p
+fri] 7p 9p 11p
+sat] 9p 11p 1a
+sun] 11p 1a 3a
+
+tweet] river
+media] "C:\\adros\\code\\rust\\river"
+state] Pending
+
+tweet]  git
+media] "C:\\adros\\code\\rust\\river\\.git"
+state] Pending
