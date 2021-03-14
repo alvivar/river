@@ -1,7 +1,7 @@
+mod egg;
+
 use std::env;
 use walkdir::{DirEntry, WalkDir};
-
-mod egg;
 
 #[tokio::main]
 async fn main() {
