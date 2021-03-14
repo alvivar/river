@@ -1,5 +1,9 @@
 
+    Reading / creating the schedule with days of the week
+    Reading files around to prepare the queue
     Updates the config file with new files found
+
+    Support timer tweets, every certain time
 
 
     2021.03.14
