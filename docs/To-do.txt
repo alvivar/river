@@ -1,0 +1,7 @@
+
+    Updates the config file with new files found
+
+
+    2021.03.14
+    x Reading files and send file format
+    x Twitter auth stuff using egg_mode
