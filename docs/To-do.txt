@@ -1,10 +1,13 @@
 
-    Reading / creating the schedule with days of the week
     Reading files around to prepare the queue
     Updates the config file with new files found
 
-    Support timer tweets, every certain time
+    Support timed tweets, every certain time
 
+
+    2021.03.15
+    x Include hashtags on schedules, by day
+    x Reading / creating the schedule with days of the week
 
     2021.03.14
     x Reading files and send file format
