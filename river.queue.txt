@@ -1,29 +1,69 @@
-
 schedule]
-mon]   11a 1p  3p   #gamedev #indiegame
-tue]   1p  3p  5p   #indiegames #gamedev
-wed]   3p  5p  7p   #gamedev #indiedev
-thu]   5p  7p  9p   #indiegame #gamedev
-fri]   7p  9p  11p  #gamedev #indiegames
-sat]   9p  11p 1a   #screenshotsaturday #gamedev
-sun]   11p 1a  3a   #gamedev #indiedev
 
+# Custom times and tags per day, as much as you like.
+
+mon]  8a   10a  #monday
+tue]  9a   11a  #tuesday
+wed]  10a  12p  #wednesday
+thu]  11a  1p   #thursday
+fri]  12p  2p   #friday
+sat]  1p   3p   #saturday
+sun]  2p   4p   #sunday
+
+
+tweets]
+
+# tweet] Message to tweet! #cool
+# image] Image-to.tweet
+# state] Pending | Sent | Error <- Handled by the application.
+
+# All fields are optional.
+# If you want you can send a single tweet] or a single image].
 
 tweet]
-    This
-        can be
-            a really
-                cool
-                    tweet.
-image]
-"C:\\adros\\code\\rust\\river"
-state]
-Pending
+image] "C:\\adros\\code\\rust\\river"
+state] Pending
 
-tweet] Or a one liner! #cool
+tweet]
 image] "C:\\adros\\code\\rust\\river\\.git"
 state] Pending
 
-tweet] Can be just like this.
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\COMMIT_EDITMSG"
+state] Pending
 
-This is not a tweet.
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\config"
+state] Pending
+
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\description"
+state] Pending
+
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\FETCH_HEAD"
+state] Pending
+
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\HEAD"
+state] Pending
+
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\hooks"
+state] Pending
+
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\hooks\\applypatch-msg.sample"
+state] Pending
+
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\hooks\\commit-msg.sample"
+state] Pending
+
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\hooks\\fsmonitor-watchman.sample"
+state] Pending
+
+tweet]
+image] "C:\\adros\\code\\rust\\river\\.git\\hooks\\post-update.sample"
+state] Pending
