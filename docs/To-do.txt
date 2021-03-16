@@ -1,9 +1,12 @@
 
-    Reading files around to prepare the queue
     Updates the config file with new files found
-
     Support timed tweets, every certain time
 
+
+    2021.03.15
+    x # Ignore comments
+    x Integrate Clap
+    x Reading files around to prepare the queue
 
     2021.03.15
     x Include hashtags on schedules, by day
