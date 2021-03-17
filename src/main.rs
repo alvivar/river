@@ -44,7 +44,7 @@ async fn main() {
     if let Some(matches) = matches.subcommand_matches("scan") {
         let has_name = matches.is_present("name");
 
-        // Parse the river file, if exists.
+        // Parse the River file, if exists.
         let mut content = String::new();
         if let Ok(mut file) = std::fs::File::open(QUEUE_FILE) {
             file.read_to_string(&mut content).unwrap();
