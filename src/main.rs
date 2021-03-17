@@ -10,13 +10,9 @@ use std::{
 
 use clap::{App, AppSettings::ArgRequiredElseHelp, Arg, SubCommand};
 use self_update::cargo_crate_version;
-use walkdir::{DirEntry, WalkDir};
+use walkdir::WalkDir;
 
 const QUEUE_FILE: &str = "river.queue.txt";
-
-const PENDING: &str = "Pending";
-// const SENT: &str = "Send";
-// const ERROR: &str = "Error";
 
 #[tokio::main]
 async fn main() {
@@ -42,7 +38,7 @@ async fn main() {
 
     // Create or @todo updates the river file by scanning image files on the folder.
     if let Some(matches) = matches.subcommand_matches("scan") {
-        let has_name = matches.is_present("name");
+        let name_as_text = matches.is_present("name");
 
         // Parse the River file, if exists.
         let mut content = String::new();
@@ -51,59 +47,30 @@ async fn main() {
         }
 
         let mut river = River::new();
-        river.parse(content);
+        river.parse_load(content);
 
-        // Look for new files.
+        // Look for new files and update River with the new files.
         let current_dir = env::current_dir().unwrap();
 
-        let mut files: Vec<DirEntry> = Vec::new();
+        let only_images = &["bmp", "gif", "jpeg", "jpg", "png"];
         for entry in WalkDir::new(current_dir) {
-            // @todo Check for images only.
-            files.push(entry.unwrap());
-        }
+            let entry = entry.unwrap();
 
-        // @todo Update River with the new files.
+            let ext = match entry.path().extension() {
+                Some(st) => st.to_str().unwrap(),
+                None => continue,
+            };
 
-        // @todo Create the River file.
-
-        // Content
-        let mut content = String::new();
-
-        content.push_str("schedule]\n\n");
-
-        content.push_str("# Custom times and tags per day, as much as you like.\n\n");
-
-        content.push_str("mon]  8a   10a  #monday\n");
-        content.push_str("tue]  9a   11a  #tuesday\n");
-        content.push_str("wed]  10a  12p  #wednesday\n");
-        content.push_str("thu]  11a  1p   #thursday\n");
-        content.push_str("fri]  12p  2p   #friday\n");
-        content.push_str("sat]  1p   3p   #saturday\n");
-        content.push_str("sun]  2p   4p   #sunday\n\n\n");
-
-        content.push_str("tweets]\n\n");
-
-        content.push_str("# tweet] Message to tweet! #cool\n");
-        content.push_str("# image] Image-to.tweet\n");
-        content.push_str("# state] Pending | Sent | Error <- Handled by the application.\n\n");
-
-        content.push_str("# All fields are optional.\n");
-        content.push_str("# If you want you can send a single tweet] or a single image].\n\n");
-
-        for file in files {
-            let name = file.file_name().to_str().unwrap();
-            let path = file.path().to_str().unwrap();
-
-            let mut desc = name.replace('-', " ").replace('_', " ").replace('.', " ");
-            if !has_name {
-                desc = "".to_owned();
+            if !only_images.contains(&ext.to_lowercase().as_str()) {
+                continue;
             }
 
-            content.push_str(&format!("{}] {}\n", river::TWEET, desc,));
-            content.push_str(&format!("{}] {:?}\n", river::IMAGE, path));
-            content.push_str(&format!("{}] {}\n", river::STATE, PENDING));
-            content.push_str(&format!("\n"));
+            let image = entry.path().to_str().unwrap();
+            river.append_new(image.to_owned());
         }
+
+        // Create the River file.
+        let content = river.to_content(name_as_text);
 
         let mut file = std::fs::File::create(QUEUE_FILE).unwrap();
         file.write_all(content.trim().as_bytes()).unwrap();
@@ -121,7 +88,7 @@ async fn main() {
         }
 
         let mut river = River::new();
-        river.parse(content);
+        river.parse_load(content);
 
         println!("{:?}\n", river.tweets);
         println!("{:?}\n", river.days);
@@ -139,12 +106,10 @@ async fn main() {
         }
     }
 
+    println!();
+    println!("File {} generated\n", QUEUE_FILE);
     println!("Done!");
 }
-
-// fn remove_whitespace_inplace(s: &mut String) {
-//     s.retain(|c| !c.is_whitespace());
-// }
 
 fn update() -> Result<(), Box<dyn std::error::Error>> {
     let status = self_update::backends::github::Update::configure()
