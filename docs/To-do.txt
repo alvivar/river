@@ -1,7 +1,12 @@
 
-    Updates the config file with new files found
-    Support timed tweets, every certain time
+    Don't overwrite the daily schedule if found first on the file
 
+    Support timed tweets, every certain time?
+
+
+    2021.03.17
+    x Updates the config file with new files found
+    x Scan should read the config file into memory, scan the files, and update the memory config with the new information
 
     2021.03.15
     x # Ignore comments
