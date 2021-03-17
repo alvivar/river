@@ -16,7 +16,7 @@ const QUEUE_FILE: &str = "river.queue.txt";
 
 #[tokio::main]
 async fn main() {
-    // Command Line
+    // Command Line.
     let matches = App::new("river")
         .version(cargo_crate_version!())
         .about("Check out github.com/alvivar/river for more info!")
@@ -49,7 +49,7 @@ async fn main() {
         let mut river = River::new();
         river.parse_load(content);
 
-        // Look for new files and update River with the new files.
+        // Update the River file with new found images.
         let current_dir = env::current_dir().unwrap();
 
         let only_images = &["bmp", "gif", "jpeg", "jpg", "png"];
