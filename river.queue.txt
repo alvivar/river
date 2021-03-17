@@ -21,49 +21,13 @@ tweets]
 # If you want you can send a single tweet] or a single image].
 
 tweet]
-image] "C:\\adros\\code\\rust\\river"
+image] C:\adros\code\rust\river\images\purple-fungus.png
 state] Pending
 
 tweet]
-image] "C:\\adros\\code\\rust\\river\\.git"
+image] C:\adros\code\rust\river\images\corruption.png
 state] Pending
 
 tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\COMMIT_EDITMSG"
-state] Pending
-
-tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\config"
-state] Pending
-
-tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\description"
-state] Pending
-
-tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\FETCH_HEAD"
-state] Pending
-
-tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\HEAD"
-state] Pending
-
-tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\hooks"
-state] Pending
-
-tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\hooks\\applypatch-msg.sample"
-state] Pending
-
-tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\hooks\\commit-msg.sample"
-state] Pending
-
-tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\hooks\\fsmonitor-watchman.sample"
-state] Pending
-
-tweet]
-image] "C:\\adros\\code\\rust\\river\\.git\\hooks\\post-update.sample"
+image] C:\adros\code\rust\river\images\fungus-tower.png
 state] Pending
