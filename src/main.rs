@@ -8,6 +8,7 @@ use std::{
     io::{Read, Write},
 };
 
+use chrono::{DateTime, Datelike, Local};
 use clap::{App, AppSettings::ArgRequiredElseHelp, Arg, SubCommand};
 use self_update::cargo_crate_version;
 use walkdir::WalkDir;
@@ -16,7 +17,8 @@ const QUEUE_FILE: &str = "river.queue.txt";
 
 #[tokio::main]
 async fn main() {
-    // Command Line.
+    // CLAP
+
     let matches = App::new("river")
         .version(cargo_crate_version!())
         .about("Check out github.com/alvivar/river for more info!")
@@ -36,7 +38,9 @@ async fn main() {
         )
         .get_matches();
 
-    // Create or @todo updates the river file by scanning image files on the folder.
+    // SCAN
+
+    // Create or updates the river file by scanning image files on the folder.
     if let Some(matches) = matches.subcommand_matches("scan") {
         let name_as_text = matches.is_present("name");
 
@@ -70,18 +74,22 @@ async fn main() {
         }
 
         // Create the River file.
-        let content = river.to_content(name_as_text);
+        let content = river.to_text(name_as_text);
 
         let mut file = std::fs::File::create(QUEUE_FILE).unwrap();
         file.write_all(content.trim().as_bytes()).unwrap();
     }
 
-    // Using the river file,
+    // START
+
+    // Using the river file, lets start waiting to tweet.
     if let Some(_) = matches.subcommand_matches("start") {
         // Twitter authentication.
+
         egg::Config::load().await;
 
         // Parse the river file.
+
         let mut content = String::new();
         if let Ok(mut file) = std::fs::File::open(QUEUE_FILE) {
             file.read_to_string(&mut content).unwrap();
@@ -90,11 +98,22 @@ async fn main() {
         let mut river = River::new();
         river.parse_load(content);
 
-        println!("{:?}\n", river.tweets);
-        println!("{:?}\n", river.days);
+        // Current time.
+
+        let local: DateTime<Local> = Local::now();
+        let today = local.weekday();
+
+        // For the current day, which is the closest hour?
+
+        println!("{}", today);
+
+        // println!("{:?}\n", river.tweets);
+        // println!("{:?}\n", river.days);
 
         // @todo Send the river file to the Tweeting thread.
     }
+
+    // UPDATE
 
     // Self updates.
     if let Some(_matches) = matches.subcommand_matches("update") {
