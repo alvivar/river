@@ -94,20 +94,20 @@ impl River {
                 }
 
                 let mut kv = line.split(']');
-                let k = kv.next().unwrap().trim();
-                let v = kv.next().unwrap().trim();
+                let key = kv.next().unwrap().trim();
+                let val = kv.next().unwrap().trim();
 
-                let v = remove_whitespace(v);
+                let val = remove_whitespace(val);
 
-                match k.to_lowercase().as_str() {
+                match key.to_lowercase().as_str() {
                     // It's a day?
-                    "mon" => self.days.mon.push(v),
-                    "tue" => self.days.tue.push(v),
-                    "wed" => self.days.wed.push(v),
-                    "thu" => self.days.thu.push(v),
-                    "fri" => self.days.fri.push(v),
-                    "sat" => self.days.sat.push(v),
-                    "sun" => self.days.sun.push(v),
+                    "mon" => self.days.mon.push(val),
+                    "tue" => self.days.tue.push(val),
+                    "wed" => self.days.wed.push(val),
+                    "thu" => self.days.thu.push(val),
+                    "fri" => self.days.fri.push(val),
+                    "sat" => self.days.sat.push(val),
+                    "sun" => self.days.sun.push(val),
 
                     // Or a tweet?
                     TWEET => {
@@ -168,7 +168,7 @@ impl River {
             .iter_mut()
             .find(|ref p| image.trim() == p.image.trim())
         {
-            // This place is useful to update because it exists.
+            // This place is useful to update if exists.
             Some(_) => {}
 
             // New entry!
@@ -181,22 +181,57 @@ impl River {
         }
     }
 
-    pub fn to_content(&self, with_name_as_text: bool) -> String {
+    pub fn to_text(&self, with_name_as_text: bool) -> String {
         let mut content = String::new();
 
         content.push_str("schedule]\n\n");
 
-        content.push_str("# Custom times and tags per day, as much as you like.\n\n");
+        content.push_str("# Times using 24-hour clock and daily tags, as much as you like.\n");
+        content.push_str("# sun] 10 13 16 #sundaytag\n\n");
 
-        // @todo Schedule from the file or default.
+        // Default schedule if doesn't exist.
+        let mon = match self.days.mon.len() > 0 {
+            true => self.days.mon.join(""),
+            false => "".to_owned(),
+        };
 
-        content.push_str("mon]  8a   10a  #monday\n");
-        content.push_str("tue]  9a   11a  #tuesday\n");
-        content.push_str("wed]  10a  12p  #wednesday\n");
-        content.push_str("thu]  11a  1p   #thursday\n");
-        content.push_str("fri]  12p  2p   #friday\n");
-        content.push_str("sat]  1p   3p   #saturday\n");
-        content.push_str("sun]  2p   4p   #sunday\n\n\n");
+        let tue = match self.days.tue.len() > 0 {
+            true => self.days.tue.join(""),
+            false => "".to_owned(),
+        };
+
+        let wed = match self.days.wed.len() > 0 {
+            true => self.days.wed.join(""),
+            false => "".to_owned(),
+        };
+
+        let thu = match self.days.thu.len() > 0 {
+            true => self.days.thu.join(""),
+            false => "".to_owned(),
+        };
+
+        let fri = match self.days.fri.len() > 0 {
+            true => self.days.fri.join(""),
+            false => "".to_owned(),
+        };
+
+        let sat = match self.days.sat.len() > 0 {
+            true => self.days.sat.join(""),
+            false => "".to_owned(),
+        };
+
+        let sun = match self.days.sun.len() > 0 {
+            true => self.days.sun.join(""),
+            false => "".to_owned(),
+        };
+
+        content.push_str(format!("mon] {}\n", mon).as_str());
+        content.push_str(format!("tue] {}\n", tue).as_str());
+        content.push_str(format!("wed] {}\n", wed).as_str());
+        content.push_str(format!("thu] {}\n", thu).as_str());
+        content.push_str(format!("fri] {}\n", fri).as_str());
+        content.push_str(format!("sat] {}\n", sat).as_str());
+        content.push_str(format!("sun] {}\n\n\n", sun).as_str());
 
         content.push_str("tweets]\n\n");
 
@@ -207,6 +242,7 @@ impl River {
         content.push_str("# All fields are optional.\n");
         content.push_str("# If you want you can send a single tweet] or a single image].\n\n");
 
+        // For each tweet.
         for file in &self.tweets.queue {
             let mut text = file.text.to_owned();
             let image = &file.image;
