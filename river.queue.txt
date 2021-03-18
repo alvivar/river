@@ -1,14 +1,15 @@
 schedule]
 
-# Custom times and tags per day, as much as you like.
+# Times using 24-hour clock and daily tags, as much as you like.
+# sun] 10 13 16 #sundaytag
 
-mon]  8a   10a  #monday
-tue]  9a   11a  #tuesday
-wed]  10a  12p  #wednesday
-thu]  11a  1p   #thursday
-fri]  12p  2p   #friday
-sat]  1p   3p   #saturday
-sun]  2p   4p   #sunday
+mon] 
+tue] asd a das da sda
+wed] 
+thu] 
+fri] 
+sat] 
+sun] 
 
 
 tweets]
@@ -20,14 +21,14 @@ tweets]
 # All fields are optional.
 # If you want you can send a single tweet] or a single image].
 
-tweet]
-image] C:\adros\code\rust\river\images\purple-fungus.png
-state] Pending
-
-tweet]
+tweet] 
 image] C:\adros\code\rust\river\images\corruption.png
-state] Pending
+state] pending
 
-tweet]
+tweet] 
 image] C:\adros\code\rust\river\images\fungus-tower.png
-state] Pending
+state] pending
+
+tweet] 
+image] C:\adros\code\rust\river\images\purple-fungus.png
+state] pending
