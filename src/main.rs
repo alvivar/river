@@ -129,8 +129,7 @@ async fn main() {
 
             println!("{}, {} hour", today, hour);
 
-            // Next hour.
-
+            // Is there a next hour?
             match schedule_today.next() {
                 Some(hour) => {
                     let mut hour = *hour;
@@ -146,6 +145,7 @@ async fn main() {
                     let next_hour = now.date().and_hms(hour, minute, 0);
                     let duration = next_hour.signed_duration_since(now).to_std();
 
+                    // Tweeting or waiting.
                     match duration {
                         Ok(duration) => {
                             let secs = duration.as_secs() + 1;
@@ -153,24 +153,26 @@ async fn main() {
 
                             println!(" Tweeting at {}:00", hour);
                             println!(" {} pending today", count);
-                            println!(" Waiting {} minutes", mins);
+                            println!(" Waiting {} minutes until the next tweet", mins);
 
                             thread::sleep(std::time::Duration::from_secs(secs));
                         }
                         Err(_) => {
                             println!(" Time to tweet!");
-                            println!(" ...");
+                            println!(" [...]");
 
                             let now = Local::now();
                             let mins = 60 - now.minute();
                             let secs = ((mins * 60) + 1) as u64;
 
-                            println!(" Waiting {} minutes", mins);
+                            println!(" Waiting {} minutes until the next hour", mins);
 
                             thread::sleep(std::time::Duration::from_secs(secs));
                         }
                     }
                 }
+
+                // No tweets today.
                 None => {
                     let now = Local::now();
                     let tomorrow = (now + Duration::days(1)).date().and_hms(0, 0, 0);
@@ -185,6 +187,8 @@ async fn main() {
                     thread::sleep(std::time::Duration::from_secs(secs));
                 }
             }
+
+            println!();
         }
     }
 
