@@ -2,13 +2,13 @@ mod egg;
 
 mod river;
 use river::River;
-
 use std::{
     env,
     io::{Read, Write},
+    thread, u32,
 };
 
-use chrono::{DateTime, Datelike, Local};
+use chrono::{Datelike, Duration, Local, Timelike};
 use clap::{App, AppSettings::ArgRequiredElseHelp, Arg, SubCommand};
 use self_update::cargo_crate_version;
 use walkdir::WalkDir;
@@ -98,14 +98,91 @@ async fn main() {
         let mut river = River::new();
         river.parse_load(content);
 
-        // Current time.
+        // Tweet at the next hour.
 
-        let local: DateTime<Local> = Local::now();
-        let today = local.weekday();
+        loop {
+            // For the current day, which is the closest hour?
 
-        // For the current day, which is the closest hour?
+            let local = Local::now();
+            let today = local.weekday();
 
-        println!("{}", today);
+            let hour = local.hour();
+            let hours = river.get_day(&today.to_string().as_str());
+
+            let mut schedule: Vec<u32> = hours
+                .split(" ")
+                .filter_map(|x| match x.parse::<u32>() {
+                    Ok(x) => Some(x),
+                    Err(_) => None,
+                })
+                .filter(|x| x >= &hour && *x <= 24)
+                .collect();
+
+            schedule.sort();
+            schedule.dedup();
+
+            let count = schedule.iter().len();
+            let mut sched_today = schedule.iter();
+
+            // Some info.
+
+            println!();
+            println!("{}, {} hour", today, hour);
+            println!("{} {} {:?}", today, hour, schedule);
+            println!("{} pending", count);
+
+            // Next hour.
+
+            let next = match sched_today.next() {
+                Some(hour) => hour,
+                None => {
+                    println!("No tweets today.");
+
+                    let now = Local::now();
+                    let tomorrow_midnight = (now + Duration::days(1)).date().and_hms(0, 0, 0);
+
+                    let duration = tomorrow_midnight
+                        .signed_duration_since(now)
+                        .to_std()
+                        .unwrap();
+
+                    println!(
+                        "Duration between {:?} and {:?}: {:?}",
+                        now, tomorrow_midnight, duration
+                    );
+
+                    println!("Waiting until tomorrow {}", duration.as_secs());
+                    thread::sleep(duration);
+
+                    continue;
+                }
+            };
+
+            println!("Next tweet at {}", next);
+
+            let mut next_hour = *next;
+            let mut next_minute = 0;
+
+            if next_hour > 23 {
+                next_hour = 23;
+                next_minute = 59;
+            }
+
+            // Time until the next hour.
+            let now = Local::now();
+            let next_hour = (now + Duration::minutes(1))
+                .date()
+                .and_hms(next_hour, next_minute, 0);
+
+            let duration = next_hour.signed_duration_since(now).to_std().unwrap();
+
+            println!(
+                "Duration between {:?} and {:?}: {:?}",
+                now, next_hour, duration
+            );
+
+            thread::sleep(duration);
+        }
 
         // println!("{:?}\n", river.tweets);
         // println!("{:?}\n", river.days);
