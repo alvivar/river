@@ -1,8 +1,11 @@
 
-    Don't overwrite the daily schedule if found first on the file
+    The correct time to tweet
 
     Support timed tweets, every certain time?
 
+
+    2021.03.17
+    x Don't overwrite the daily schedule if found first on the file
 
     2021.03.17
     x Updates the config file with new files found
