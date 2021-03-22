@@ -2,10 +2,11 @@ mod egg;
 
 mod river;
 use river::River;
+
 use std::{
     env,
     io::{Read, Write},
-    thread, u32,
+    thread, u32, u64,
 };
 
 use chrono::{Datelike, Duration, Local, Timelike};
@@ -122,72 +123,69 @@ async fn main() {
             schedule.dedup();
 
             let count = schedule.iter().len();
-            let mut sched_today = schedule.iter();
+            let mut schedule_today = schedule.iter();
 
             // Some info.
 
-            println!();
             println!("{}, {} hour", today, hour);
-            println!("{} {} {:?}", today, hour, schedule);
-            println!("{} pending", count);
 
             // Next hour.
 
-            let next = match sched_today.next() {
-                Some(hour) => hour,
-                None => {
-                    println!("No tweets today.");
+            match schedule_today.next() {
+                Some(hour) => {
+                    let mut hour = *hour;
+                    let mut minute = 0;
 
+                    if hour > 23 {
+                        hour = 23;
+                        minute = 59;
+                    }
+
+                    // Time until the next hour.
                     let now = Local::now();
-                    let tomorrow_midnight = (now + Duration::days(1)).date().and_hms(0, 0, 0);
+                    let next_hour = now.date().and_hms(hour, minute, 0);
+                    let duration = next_hour.signed_duration_since(now).to_std();
 
-                    let duration = tomorrow_midnight
-                        .signed_duration_since(now)
-                        .to_std()
-                        .unwrap();
+                    match duration {
+                        Ok(duration) => {
+                            let secs = duration.as_secs() + 1;
+                            let mins = secs / 60;
 
-                    println!(
-                        "Duration between {:?} and {:?}: {:?}",
-                        now, tomorrow_midnight, duration
-                    );
+                            println!(" Tweeting at {}:00", hour);
+                            println!(" {} pending today", count);
+                            println!(" Waiting {} minutes", mins);
 
-                    println!("Waiting until tomorrow {}", duration.as_secs());
-                    thread::sleep(duration);
+                            thread::sleep(std::time::Duration::from_secs(secs));
+                        }
+                        Err(_) => {
+                            println!(" Time to tweet!");
+                            println!(" ...");
 
-                    continue;
+                            let now = Local::now();
+                            let mins = 60 - now.minute();
+                            let secs = ((mins * 60) + 1) as u64;
+
+                            println!(" Waiting {} minutes", mins);
+
+                            thread::sleep(std::time::Duration::from_secs(secs));
+                        }
+                    }
                 }
-            };
+                None => {
+                    let now = Local::now();
+                    let tomorrow = (now + Duration::days(1)).date().and_hms(0, 0, 0);
+                    let duration = tomorrow.signed_duration_since(now).to_std().unwrap();
 
-            println!("Next tweet at {}", next);
+                    let secs = duration.as_secs() + 1;
+                    let hours = secs / 60 / 60;
 
-            let mut next_hour = *next;
-            let mut next_minute = 0;
+                    println!(" No tweets today");
+                    println!(" Waiting {} hours until tomorrow", hours);
 
-            if next_hour > 23 {
-                next_hour = 23;
-                next_minute = 59;
+                    thread::sleep(std::time::Duration::from_secs(secs));
+                }
             }
-
-            // Time until the next hour.
-            let now = Local::now();
-            let next_hour = (now + Duration::minutes(1))
-                .date()
-                .and_hms(next_hour, next_minute, 0);
-
-            let duration = next_hour.signed_duration_since(now).to_std().unwrap();
-
-            println!(
-                "Duration between {:?} and {:?}: {:?}",
-                now, next_hour, duration
-            );
-
-            thread::sleep(duration);
         }
-
-        // println!("{:?}\n", river.tweets);
-        // println!("{:?}\n", river.days);
-
-        // @todo Send the river file to the Tweeting thread.
     }
 
     // UPDATE
