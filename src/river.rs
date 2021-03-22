@@ -10,24 +10,24 @@ pub const ERROR: &str = "error";
 
 #[derive(Debug)]
 pub struct Days {
-    mon: Vec<String>,
-    tue: Vec<String>,
-    wed: Vec<String>,
-    thu: Vec<String>,
-    fri: Vec<String>,
-    sat: Vec<String>,
-    sun: Vec<String>,
+    mon: String,
+    tue: String,
+    wed: String,
+    thu: String,
+    fri: String,
+    sat: String,
+    sun: String,
 }
 
 impl Days {
     pub fn new() -> Days {
-        let mon = Vec::<String>::new();
-        let tue = Vec::<String>::new();
-        let wed = Vec::<String>::new();
-        let thu = Vec::<String>::new();
-        let fri = Vec::<String>::new();
-        let sat = Vec::<String>::new();
-        let sun = Vec::<String>::new();
+        let mon = String::new();
+        let tue = String::new();
+        let wed = String::new();
+        let thu = String::new();
+        let fri = String::new();
+        let sat = String::new();
+        let sun = String::new();
 
         Days {
             mon,
@@ -84,6 +84,21 @@ impl River {
         River { days, tweets }
     }
 
+    pub fn get_day(&self, day: &str) -> String {
+        let chosen = match day.to_lowercase().as_str() {
+            "mon" => self.days.mon.to_owned(),
+            "tue" => self.days.tue.to_owned(),
+            "wed" => self.days.wed.to_owned(),
+            "thu" => self.days.thu.to_owned(),
+            "fri" => self.days.fri.to_owned(),
+            "sat" => self.days.sat.to_owned(),
+            "sun" => self.days.sun.to_owned(),
+            _ => String::new(),
+        };
+
+        chosen
+    }
+
     pub fn parse_load(&mut self, content: String) {
         // Two lines defines our sections.
         for block in content.split("\n\n") {
@@ -94,20 +109,20 @@ impl River {
                 }
 
                 let mut kv = line.split(']');
-                let key = kv.next().unwrap().trim();
-                let val = kv.next().unwrap().trim();
+                let k = kv.next().unwrap().trim();
+                let v = kv.next().unwrap().trim();
 
-                let val = remove_whitespace(val);
+                let val = remove_whitespace(v);
 
-                match key.to_lowercase().as_str() {
+                match k.to_lowercase().as_str() {
                     // It's a day?
-                    "mon" => self.days.mon.push(val),
-                    "tue" => self.days.tue.push(val),
-                    "wed" => self.days.wed.push(val),
-                    "thu" => self.days.thu.push(val),
-                    "fri" => self.days.fri.push(val),
-                    "sat" => self.days.sat.push(val),
-                    "sun" => self.days.sun.push(val),
+                    "mon" => self.days.mon = val,
+                    "tue" => self.days.tue = val,
+                    "wed" => self.days.wed = val,
+                    "thu" => self.days.thu = val,
+                    "fri" => self.days.fri = val,
+                    "sat" => self.days.sat = val,
+                    "sun" => self.days.sun = val,
 
                     // Or a tweet?
                     TWEET => {
@@ -191,37 +206,37 @@ impl River {
 
         // Default schedule if doesn't exist.
         let mon = match self.days.mon.len() > 0 {
-            true => self.days.mon.join(""),
+            true => self.days.mon.to_owned(),
             false => "".to_owned(),
         };
 
         let tue = match self.days.tue.len() > 0 {
-            true => self.days.tue.join(""),
+            true => self.days.tue.to_owned(),
             false => "".to_owned(),
         };
 
         let wed = match self.days.wed.len() > 0 {
-            true => self.days.wed.join(""),
+            true => self.days.wed.to_owned(),
             false => "".to_owned(),
         };
 
         let thu = match self.days.thu.len() > 0 {
-            true => self.days.thu.join(""),
+            true => self.days.thu.to_owned(),
             false => "".to_owned(),
         };
 
         let fri = match self.days.fri.len() > 0 {
-            true => self.days.fri.join(""),
+            true => self.days.fri.to_owned(),
             false => "".to_owned(),
         };
 
         let sat = match self.days.sat.len() > 0 {
-            true => self.days.sat.join(""),
+            true => self.days.sat.to_owned(),
             false => "".to_owned(),
         };
 
         let sun = match self.days.sun.len() > 0 {
-            true => self.days.sun.join(""),
+            true => self.days.sun.to_owned(),
             false => "".to_owned(),
         };
 
