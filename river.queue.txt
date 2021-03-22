@@ -9,7 +9,7 @@ wed] 4 5
 thu] 3 5
 fri] 6 5
 sat] 5 5
-sun] 23 25 16 173 013338 qe 19 20 as 15 20 2040 @sads as 45 190 24 00 01
+sun] 25 26 173 013338 qe 19 20 as 15 20 2040 @sads as 45 190 24 00 01
 
 
 tweets]
@@ -21,14 +21,14 @@ tweets]
 # All fields are optional.
 # If you want you can send a single tweet] or a single image].
 
-tweet]
+tweet] 
 image] C:\adros\code\rust\river\images\corruption.png
 state] Pending
 
-tweet]
+tweet] 
 image] C:\adros\code\rust\river\images\fungus-tower.png
 state] Pending
 
-tweet]
+tweet] 
 image] C:\adros\code\rust\river\images\purple-fungus.png
 state] Pending
