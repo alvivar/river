@@ -7,7 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tokio = "0.2.25"
+tokio = { version = "0.2.25", features = ["full"] }
 egg-mode = "0.15.0"
 yansi = "0.5.0"
 chrono = "0.4.19"

@@ -1,7 +1,9 @@
 
-    Waiting should rewrite the console, changing time accordingly
+    Mark the gif as Sent or Error
     Safety datetime time lock to avoid over tweeting when the app is restarted
-    The gif tweet
+    Tweet a gif
+
+    Waiting should rewrite the console, changing time accordingly
 
     Support timed tweets, every certain time?
 

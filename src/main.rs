@@ -3,9 +3,15 @@ mod egg;
 mod river;
 use river::River;
 
+use egg_mode::{
+    media::{media_types, upload_media},
+    tweet::DraftTweet,
+};
+
 use std::{
     env,
     io::{Read, Write},
+    path::PathBuf,
     thread, u32, u64,
 };
 
@@ -76,9 +82,10 @@ async fn main() {
 
         // Create the River file.
         let content = river.to_text(name_as_text);
+        write_file(content, QUEUE_FILE);
 
-        let mut file = std::fs::File::create(QUEUE_FILE).unwrap();
-        file.write_all(content.trim().as_bytes()).unwrap();
+        println!();
+        println!("File {} generated\n", QUEUE_FILE);
     }
 
     // START
@@ -87,7 +94,7 @@ async fn main() {
     if let Some(_) = matches.subcommand_matches("start") {
         // Twitter authentication.
 
-        egg::Config::load().await;
+        let config = egg::Config::load().await;
 
         // Parse the river file.
 
@@ -101,9 +108,16 @@ async fn main() {
 
         // Tweet at the next hour.
 
-        loop {
-            // For the current day, which is the closest hour?
+        // @todo There is probably a better way to do this.
+        let mut queue = river.tweets.queue.clone();
 
+        for tweet in &mut queue {
+            // Skip already tweeted tweets.
+            if tweet.state.to_lowercase().trim() != river::PENDING {
+                continue;
+            }
+
+            // For the current day, which is the closest hour?
             let local = Local::now();
             let today = local.weekday();
 
@@ -158,6 +172,69 @@ async fn main() {
                             thread::sleep(std::time::Duration::from_secs(secs));
                         }
                         Err(_) => {
+                            let image_path = PathBuf::from(tweet.image.to_owned());
+                            let mut post = DraftTweet::new(tweet.text.to_owned());
+
+                            let media_type = match image_path
+                                .as_path()
+                                .extension()
+                                .and_then(|os| os.to_str())
+                                .unwrap_or("")
+                            {
+                                "jpg" | "jpeg" => media_types::image_jpg(),
+                                "gif" => media_types::image_gif(),
+                                "png" => media_types::image_png(),
+                                "webp" => media_types::image_webp(),
+                                "mp4" => media_types::video_mp4(),
+                                _ => {
+                                    eprintln!("Format not recognized, must be one of [jpg, jpeg, gif, png, webp, mp4]");
+                                    std::process::exit(1);
+                                }
+                            };
+
+                            let bytes = std::fs::read(image_path).unwrap();
+                            let handle = upload_media(&bytes, &media_type, &config.token)
+                                .await
+                                .unwrap();
+
+                            post.add_media(handle.id.clone());
+
+                            // for ct in 0..=60u32 {
+                            //     match get_status(handle.id.clone(), &config.token)
+                            //         .await
+                            //         .unwrap()
+                            //         .progress
+                            //     {
+                            //         None | Some(ProgressInfo::Success) => {
+                            //             println!("\nMedia sucessfully processed");
+                            //             break;
+                            //         }
+                            //         Some(ProgressInfo::Pending(_))
+                            //         | Some(ProgressInfo::InProgress(_)) => {
+                            //             print!(".");
+                            //             stdout().flush().unwrap();
+
+                            //             tokio::time::delay_for(tokio::time::Duration::from_secs(1))
+                            //                 .await;
+                            //         }
+                            //         Some(ProgressInfo::Failed(err)) => Err(err).unwrap(),
+                            //     }
+                            //     if ct == 60 {
+                            //         Err("Error: timeout").unwrap()
+                            //     }
+                            // }
+
+                            let sent = post.send(&config.token).await;
+
+                            match sent {
+                                Ok(_) => {
+                                    tweet.state = river::SENT.to_owned();
+
+                                    println!("Tweet sent!")
+                                }
+                                Err(_) => println!("Tweet error!"),
+                            }
+
                             println!(" Time to tweet!");
                             println!(" [...]");
 
@@ -167,7 +244,8 @@ async fn main() {
 
                             println!(" Waiting {} minutes until the next hour", mins);
 
-                            thread::sleep(std::time::Duration::from_secs(secs));
+                            thread::sleep(std::time::Duration::from_secs(5));
+                            // thread::sleep(std::time::Duration::from_secs(secs));
                         }
                     }
                 }
@@ -190,6 +268,13 @@ async fn main() {
 
             println!();
         }
+
+        // Update the current file.
+
+        river.tweets.queue = queue;
+
+        let content = river.to_text(false);
+        write_file(content, QUEUE_FILE);
     }
 
     // UPDATE
@@ -204,8 +289,6 @@ async fn main() {
         }
     }
 
-    println!();
-    println!("File {} generated\n", QUEUE_FILE);
     println!("Done!");
 }
 
@@ -222,4 +305,9 @@ fn update() -> Result<(), Box<dyn std::error::Error>> {
     println!("Current version... v{}", status.version());
 
     Ok(())
+}
+
+fn write_file(content: String, filepath: &str) {
+    let mut file = std::fs::File::create(filepath).unwrap();
+    file.write_all(content.trim().as_bytes()).unwrap();
 }

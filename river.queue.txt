@@ -3,8 +3,8 @@ schedule]
 # Times using 24-hour clock and daily tags, as much as you like.
 # sun] 10 13 16 #sundaytag
 
-mon]    5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 -3`
-tue] 2 4
+mon] 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 0 1 2 3
+tue] 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 0 1 2 3
 wed] 4 5
 thu] 3 5
 fri] 6 5
@@ -21,14 +21,14 @@ tweets]
 # All fields are optional.
 # If you want you can send a single tweet] or a single image].
 
-tweet]
+tweet] Corruption #wat
 image] C:\adros\code\rust\river\images\corruption.png
 state] Pending
 
-tweet]
+tweet] Fungus tower #test
 image] C:\adros\code\rust\river\images\fungus-tower.png
 state] Pending
 
-tweet]
+tweet] Purple fungus #example
 image] C:\adros\code\rust\river\images\purple-fungus.png
 state] Pending

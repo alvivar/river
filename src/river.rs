@@ -41,7 +41,7 @@ impl Days {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Tweet {
     pub text: String,
     pub image: String,
