@@ -252,7 +252,7 @@ impl River {
 
         content.push_str("# tweet] Message to tweet! #cool\n");
         content.push_str("# image] Image-to.tweet\n");
-        content.push_str("# state] Pending | Sent | Error <- Handled by the application.\n\n");
+        content.push_str("# state] pending | sent | error <- Handled by the application.\n\n");
 
         content.push_str("# All fields are optional.\n");
         content.push_str("# If you want you can send a single tweet] or a single image].\n\n");
@@ -264,13 +264,13 @@ impl River {
 
             let state = if file.state.len() > 0 {
                 let state = match file.state.to_lowercase().as_str() {
-                    PENDING => "Pending",
-                    SENT => "Sent",
-                    ERROR => "Error",
+                    PENDING => PENDING,
+                    SENT => SENT,
+                    ERROR => ERROR,
                     _ => PENDING,
                 };
 
-                state.to_string()
+                state.to_owned()
             } else {
                 PENDING.to_owned()
             };
