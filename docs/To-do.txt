@@ -1,11 +1,13 @@
 
 
+    Quickly update the file #hack
+    Waiting should rewrite the console, changing time accordingly
+
     Handle the River file as a Struct with powers
     Handle the error file by exiting and advice
     Safety datetime time lock to avoid over tweeting when the app is restarted
 
     Probably convert Status constant to some Enum
-    Waiting should rewrite the console, changing time accordingly
 
     Support timed tweets, every certain time?
 
