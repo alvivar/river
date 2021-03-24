@@ -23,11 +23,13 @@ mod egg;
 mod river;
 use river::River;
 
-const QUEUE_FILE: &str = "river.queue.txt";
+const RIVER_FILE: &str = "river.queue.txt";
 
 #[tokio::main]
 async fn main() {
-    let matches = App::new("river")
+    // Clap
+
+    let matches = App::new("River")
         .version(cargo_crate_version!())
         .about("Tool that schedules tweets with images\ngithub.com/alvivar/river")
         .setting(ArgRequiredElseHelp)
@@ -46,6 +48,11 @@ async fn main() {
         )
         .get_matches();
 
+    // Global
+
+    let dir = env::current_dir().unwrap();
+    let path = PathBuf::new().join(&dir).join(RIVER_FILE);
+
     // Scan
 
     // Create or updates the River file by scanning image files on the folder.
@@ -53,19 +60,13 @@ async fn main() {
         let name_as_text = matches.is_present("name");
 
         // Parse the River file, if exists.
-        let mut content = String::new();
-        if let Ok(mut file) = std::fs::File::open(QUEUE_FILE) {
-            file.read_to_string(&mut content).unwrap();
-        }
-
+        let content = read_file(&path);
         let mut river = River::new();
         river.parse_load(content);
 
         // Update the River file with new found images.
-        let current_dir = env::current_dir().unwrap();
-
         let only_images = &["bmp", "gif", "jpeg", "jpg", "png"];
-        for entry in WalkDir::new(current_dir) {
+        for entry in WalkDir::new(&dir) {
             let entry = entry.unwrap();
 
             let ext = match entry.path().extension() {
@@ -83,10 +84,16 @@ async fn main() {
 
         // Create the River file.
         let content = river.to_text(name_as_text);
-        write_file(content, QUEUE_FILE);
+        write_file(content, &path);
 
-        println!();
-        println!("File {} generated\n", QUEUE_FILE);
+        let count = river
+            .tweets
+            .iter()
+            .filter(|x| x.state.trim().to_lowercase() == river::PENDING)
+            .count();
+
+        println!("{} updated", RIVER_FILE);
+        println!("{} tweets pending\n", count);
     }
 
     // Start
@@ -95,17 +102,14 @@ async fn main() {
     if let Some(_) = matches.subcommand_matches("start") {
         let auth = egg::Config::load().await;
 
-        // Parse the River file.
-        let mut content = String::new();
-        if let Ok(mut file) = std::fs::File::open(QUEUE_FILE) {
-            file.read_to_string(&mut content).unwrap();
-        }
-
+        // Parse the River file, if exists.
+        let content = read_file(&path);
         let mut river = River::new();
         river.parse_load(content);
 
         // Tweet at the next hour.
-        let mut queue = river.tweets.queue.clone(); // @todo There is probably a better way to do this.
+        let mut queue = river.tweets.clone(); // @todo There is probably a better way to do this.
+
         for tweet in &mut queue {
             if tweet.state.trim().to_lowercase() != river::PENDING {
                 continue;
@@ -168,10 +172,11 @@ async fn main() {
                         // The OutOfRangeError means that duration is less than 1 hour.
                         Err(_) => {
                             let text = tweet.text.to_owned();
+                            let image = tweet.image.to_owned();
 
-                            let image = PathBuf::from(tweet.image.to_owned());
+                            let image_path = PathBuf::from(&image);
 
-                            let media_type = match image
+                            let media_type = match image_path
                                 .as_path()
                                 .extension()
                                 .and_then(|os| os.to_str())
@@ -190,7 +195,7 @@ async fn main() {
 
                             let mut post = DraftTweet::new(text.to_owned());
 
-                            let data = std::fs::read(image.to_owned()).unwrap();
+                            let data = std::fs::read(image_path.to_owned()).unwrap();
                             let handle =
                                 upload_media(&data, &media_type, &auth.token).await.unwrap();
 
@@ -198,11 +203,16 @@ async fn main() {
 
                             println!("  Trying...");
                             println!("  > {}", text);
-                            println!("  > {:?}", image);
+                            println!("  > {:?}", image_path);
 
                             match post.send(&auth.token).await {
                                 Ok(_) => {
                                     tweet.state = river::SENT.to_owned();
+
+                                    // Update the River file.
+                                    river.update_state(image, river::SENT.to_owned());
+                                    let content = river.to_text(false);
+                                    write_file(content, &path);
 
                                     println!(" Sent!");
                                 }
@@ -244,10 +254,9 @@ async fn main() {
         }
 
         // Update the River file.
-        river.tweets.queue = queue;
-
+        river.tweets = queue;
         let content = river.to_text(false);
-        write_file(content, QUEUE_FILE);
+        write_file(content, &path);
     }
 
     // Update
@@ -280,7 +289,16 @@ fn update() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn write_file(content: String, filepath: &str) {
+fn write_file(content: String, filepath: &PathBuf) {
     let mut file = std::fs::File::create(filepath).unwrap();
     file.write_all(content.trim().as_bytes()).unwrap();
+}
+
+fn read_file(filepath: &PathBuf) -> String {
+    let mut content = String::new();
+    if let Ok(mut file) = std::fs::File::open(filepath) {
+        file.read_to_string(&mut content).unwrap();
+    }
+
+    content
 }
