@@ -23,12 +23,12 @@ tweets]
 
 tweet] Corruption #wat
 image] C:\adros\code\rust\river\images\corruption.png
-state] Pending
+state] Sent
 
 tweet] Fungus tower #test
 image] C:\adros\code\rust\river\images\fungus-tower.png
-state] Pending
+state] Sent
 
 tweet] Purple fungus #example
 image] C:\adros\code\rust\river\images\purple-fungus.png
-state] Pending
+state] Sent
