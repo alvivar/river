@@ -187,7 +187,7 @@ async fn main() {
                                 "webp" => media_types::image_webp(),
                                 "mp4" => media_types::video_mp4(),
                                 _ => {
-                                    eprintln!("Format not recognized, must be one of [jpg, jpeg, gif, png, webp, mp4]");
+                                    eprintln!(" Format not recognized, must be one of jpg, jpeg, gif, png, webp, mp4");
                                     std::process::exit(1);
                                 }
                             };
@@ -199,44 +199,16 @@ async fn main() {
 
                             post.add_media(handle.id.clone());
 
-                            // for ct in 0..=60u32 {
-                            //     match get_status(handle.id.clone(), &config.token)
-                            //         .await
-                            //         .unwrap()
-                            //         .progress
-                            //     {
-                            //         None | Some(ProgressInfo::Success) => {
-                            //             println!("\nMedia sucessfully processed");
-                            //             break;
-                            //         }
-                            //         Some(ProgressInfo::Pending(_))
-                            //         | Some(ProgressInfo::InProgress(_)) => {
-                            //             print!(".");
-                            //             stdout().flush().unwrap();
-
-                            //             tokio::time::delay_for(tokio::time::Duration::from_secs(1))
-                            //                 .await;
-                            //         }
-                            //         Some(ProgressInfo::Failed(err)) => Err(err).unwrap(),
-                            //     }
-                            //     if ct == 60 {
-                            //         Err("Error: timeout").unwrap()
-                            //     }
-                            // }
-
                             let sent = post.send(&config.token).await;
 
                             match sent {
                                 Ok(_) => {
                                     tweet.state = river::SENT.to_owned();
 
-                                    println!("Tweet sent!")
+                                    println!(" Sent!")
                                 }
-                                Err(_) => println!("Tweet error!"),
+                                Err(_) => println!(" Tweet error!"),
                             }
-
-                            println!(" Time to tweet!");
-                            println!(" [...]");
 
                             let now = Local::now();
                             let mins = 60 - now.minute();
