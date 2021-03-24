@@ -1,4 +1,6 @@
 
+    Thread mode to tweet in chains
+
     Upload a build to github for self updatess
     New just creates a empty River file
     Can print the file without help hints
