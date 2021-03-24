@@ -58,28 +58,15 @@ impl Tweet {
     }
 }
 
-#[derive(Debug)]
-pub struct Tweets {
-    pub queue: Vec<Tweet>,
-}
-
-impl Tweets {
-    pub fn new() -> Tweets {
-        let queue = Vec::new();
-
-        Tweets { queue }
-    }
-}
-
 pub struct River {
     pub days: Days,
-    pub tweets: Tweets,
+    pub tweets: Vec<Tweet>,
 }
 
 impl River {
     pub fn new() -> River {
         let days = Days::new();
-        let tweets = Tweets::new();
+        let tweets = Vec::new();
 
         River { days, tweets }
     }
@@ -167,7 +154,7 @@ impl River {
                         tweet.image = image;
                         tweet.state = state;
 
-                        self.tweets.queue.push(tweet);
+                        self.tweets.push(tweet);
                     }
 
                     _ => continue,
@@ -179,7 +166,6 @@ impl River {
     pub fn append_new(&mut self, image: String) {
         match self
             .tweets
-            .queue
             .iter_mut()
             .find(|ref p| image.trim() == p.image.trim())
         {
@@ -191,8 +177,22 @@ impl River {
                 let mut tweet = Tweet::new();
                 tweet.image = image;
 
-                self.tweets.queue.push(tweet);
+                self.tweets.push(tweet);
             }
+        }
+    }
+
+    pub fn update_state(&mut self, image: String, state: String) {
+        match self
+            .tweets
+            .iter_mut()
+            .find(|ref p| image.trim() == p.image.trim())
+        {
+            // Update if exists.
+            Some(tweet) => tweet.state = state,
+
+            // New entry!
+            None => {}
         }
     }
 
@@ -258,7 +258,7 @@ impl River {
         content.push_str("# If you want you can send a single tweet] or a single image].\n\n");
 
         // For each tweet.
-        for file in &self.tweets.queue {
+        for file in &self.tweets {
             let mut text = file.text.to_owned();
             let image = &file.image;
 
