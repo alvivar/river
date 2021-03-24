@@ -4,7 +4,7 @@ schedule]
 # sun] 10 13 16 #sundaytag
 
 mon] 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 0 1 2 3
-tue] 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 0 1 2 3
+tue] -3 -2 -1 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 0 1 2 3
 wed] 4 5
 thu] 3 5
 fri] 6 5
@@ -16,19 +16,19 @@ tweets]
 
 # tweet] Message to tweet! #cool
 # image] Image-to.tweet
-# state] Pending | Sent | Error <- Handled by the application.
+# state] pending | sent | error <- Handled by the application.
 
 # All fields are optional.
 # If you want you can send a single tweet] or a single image].
 
-tweet] Corruption #wat
+tweet] Corruption #test
 image] C:\adros\code\rust\river\images\corruption.png
-state] Pending
+state] pending
 
-tweet] Fungus tower #test
+tweet] Fungus Tower #test
 image] C:\adros\code\rust\river\images\fungus-tower.png
-state] Pending
+state] pending
 
-tweet] Purple fungus #example
+tweet] Purple Fungus #test
 image] C:\adros\code\rust\river\images\purple-fungus.png
-state] Pending
+state] pending
