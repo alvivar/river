@@ -1,5 +1,6 @@
 
     Handle the error file by exiting, record tweet Error status and advice
+    Pending state should be Title case
 
     Thread mode to tweet in chains
 

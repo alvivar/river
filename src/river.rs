@@ -1,11 +1,12 @@
 use std::{collections::HashMap, path::Path};
 
+use chrono::DateTime;
+
 pub const TWEET: &str = "tweet";
 pub const IMAGE: &str = "image";
 pub const STATE: &str = "state";
 
 pub const PENDING: &str = "pending";
-pub const SENT: &str = "sent";
 pub const ERROR: &str = "error";
 
 #[derive(Debug)]
@@ -205,7 +206,7 @@ impl River {
         }
     }
 
-    pub fn to_text(&self, with_name_as_text: bool) -> String {
+    pub fn to_text(&self, name_as_text: bool, include_help: bool) -> String {
         let mut content = String::new();
 
         // Default schedule if doesn't exist.
@@ -251,8 +252,10 @@ impl River {
 
         content.push_str("schedule]\n\n");
 
-        content.push_str("# Times using 24-hour clock and daily tags, as much as you like.\n");
-        content.push_str("# sun] 10 13 16 #sundaytag\n\n");
+        if include_help {
+            content.push_str("# Times using 24-hour clock and daily tags, as much as you like.\n");
+            content.push_str("# sun] 10 13 16 #sundaytag\n\n");
+        }
 
         content.push_str(format!("last] {}\n\n", last).as_str());
 
@@ -266,12 +269,14 @@ impl River {
 
         content.push_str("tweets]\n\n");
 
-        content.push_str("# tweet] Message to tweet! #cool\n");
-        content.push_str("# image] Image-to.tweet\n");
-        content.push_str("# state] pending | sent | error <- Handled by the application.\n\n");
+        if include_help {
+            content.push_str("# tweet] Message to tweet! #cool\n");
+            content.push_str("# image] Image-to.tweet\n");
+            content.push_str("# state] pending | sent | error <- Handled by the application.\n\n");
 
-        content.push_str("# All fields are optional.\n");
-        content.push_str("# If you want you can send a single tweet] or a single image].\n\n");
+            content.push_str("# All fields are optional.\n");
+            content.push_str("# If you want you can send a single tweet] or a single image].\n\n");
+        }
 
         // For each tweet.
         for file in &self.tweets {
@@ -279,11 +284,17 @@ impl River {
             let image = &file.image;
 
             let state = if file.state.len() > 0 {
-                let state = match file.state.to_lowercase().as_str() {
+                let file_state = file.state.to_owned();
+
+                let try_date = match DateTime::parse_from_rfc2822(&file_state) {
+                    Ok(_) => file_state.to_owned(),
+                    Err(_) => ERROR.to_owned(),
+                };
+
+                let state = match file_state.as_str() {
                     PENDING => PENDING,
-                    SENT => SENT,
                     ERROR => ERROR,
-                    _ => PENDING,
+                    _ => try_date.as_str(),
                 };
 
                 state.to_owned()
@@ -291,7 +302,7 @@ impl River {
                 PENDING.to_owned()
             };
 
-            if with_name_as_text && text.len() < 1 {
+            if name_as_text && text.len() < 1 {
                 let image_path = Path::new(&image);
                 let name = image_path
                     .file_name()

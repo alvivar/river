@@ -14,7 +14,7 @@ use egg_mode::{
     tweet::DraftTweet,
 };
 
-use chrono::{Datelike, Duration, Local, Timelike};
+use chrono::{DateTime, Datelike, Duration, Local, Timelike};
 use clap::{App, AppSettings::ArgRequiredElseHelp, Arg, SubCommand};
 use self_update::cargo_crate_version;
 use walkdir::WalkDir;
@@ -39,6 +39,10 @@ async fn main() {
                 .short("n")
                 .help("Use the name as text")
             )
+            .arg(Arg::with_name("instructions")
+                .short("i")
+                .help("Include instructions")
+            )
         )
         .subcommand(SubCommand::with_name("start")
             .about("Starts tweeting from river.queue.txt")
@@ -51,16 +55,17 @@ async fn main() {
     // Global
 
     let dir = env::current_dir().unwrap();
-    let path = PathBuf::new().join(&dir).join(RIVER_FILE);
+    let river_file = PathBuf::new().join(&dir).join(RIVER_FILE);
 
     // Scan
 
     // Create or updates the River file by scanning image files on the folder.
     if let Some(matches) = matches.subcommand_matches("scan") {
         let name_as_text = matches.is_present("name");
+        let include_help = matches.is_present("instructions");
 
         // Parse the River file, if exists.
-        let content = read_file(&path);
+        let content = read_file(&river_file);
         let mut river = River::new();
         river.parse_load(content);
 
@@ -83,13 +88,13 @@ async fn main() {
         }
 
         // Create the River file.
-        let content = river.to_text(name_as_text);
-        write_file(content, &path);
+        let content = river.to_text(name_as_text, include_help);
+        write_file(content, &river_file);
 
         let count = river
             .tweets
             .iter()
-            .filter(|x| x.state.trim().to_lowercase() != river::SENT)
+            // .filter(|x| x.state.trim().to_lowercase() != river::SENT)
             .count();
 
         println!("Hi!\n");
@@ -104,7 +109,7 @@ async fn main() {
         let auth = egg::Config::load().await;
 
         // Parse the River file, if exists.
-        let content = read_file(&path);
+        let content = read_file(&river_file);
         let mut river = River::new();
         river.parse_load(content);
 
@@ -112,9 +117,24 @@ async fn main() {
         let mut queue = river.tweets.clone(); // @todo There is probably a better way to do this.
 
         for tweet in &mut queue {
-            if tweet.state.trim().to_lowercase() != river::PENDING {
-                continue;
+            // Continue if there is a valid date, or is pending.
+            match DateTime::parse_from_rfc2822(&tweet.state.to_string()) {
+                Ok(_) => continue,
+                Err(_) => {
+                    if tweet.state.trim().to_lowercase() == river::ERROR {
+                        println!("Error on the {} file, take a look", RIVER_FILE);
+
+                        break;
+                    } else {
+                        tweet.state = river::ERROR.to_owned();
+                        println!("Error on the {} file, take a look", RIVER_FILE);
+
+                        break;
+                    }
+                }
             }
+
+            // @todo THIS IS WRONG ^
 
             // On the current day, which is the closest hour?
             let local = Local::now();
@@ -174,7 +194,6 @@ async fn main() {
                         Err(_) => {
                             let text = tweet.text.to_owned();
                             let image = tweet.image.to_owned();
-
                             let image_path = PathBuf::from(&image);
 
                             let media_type = match image_path
@@ -190,6 +209,7 @@ async fn main() {
                                 "mp4" => media_types::video_mp4(),
                                 _ => {
                                     eprintln!(" Image format not recognized, must be one of [jpg, jpeg, gif, png, webp, mp4]");
+
                                     exit(1);
                                 }
                             };
@@ -202,7 +222,7 @@ async fn main() {
 
                             post.add_media(handle.id.clone());
 
-                            println!("  Trying...");
+                            println!(" Trying...");
                             println!("  > {}", text);
                             println!("  > {:?}", image_path);
 
@@ -210,13 +230,13 @@ async fn main() {
 
                             match post.send(&auth.token).await {
                                 Ok(_) => {
-                                    tweet.state = river::SENT.to_owned();
-
                                     // Update the River file.
+                                    tweet.state = now.to_rfc2822();
+
                                     river.last = now.to_rfc2822();
-                                    river.update_state(image, river::SENT.to_owned());
-                                    let content = river.to_text(false);
-                                    write_file(content, &path);
+                                    river.update_state(image, now.to_rfc2822());
+                                    let content = river.to_text(false, false);
+                                    write_file(content, &river_file);
 
                                     println!(" Sent!");
                                 }
@@ -258,15 +278,15 @@ async fn main() {
 
         // Update the River file.
         river.tweets = queue;
-        let content = river.to_text(false);
-        write_file(content, &path);
+        let content = river.to_text(false, false);
+        write_file(content, &river_file);
     }
 
     // Update
 
     // Self updates.
     if let Some(_matches) = matches.subcommand_matches("update") {
-        println!();
+        println!("Hm...\n");
 
         match update() {
             Ok(_) => println!("Updated!"),

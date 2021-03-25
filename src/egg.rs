@@ -70,7 +70,7 @@ impl Config {
                 println!("We've hit an error using your old tokens\n");
                 std::fs::remove_file(TWITTER_FILE).unwrap();
             } else {
-                println!("Welcome back, @{}!\n", username);
+                println!("Welcome back @{}!\n", username);
             }
         } else {
             let request_token = egg_mode::auth::request_token(&con_token, "oob")
