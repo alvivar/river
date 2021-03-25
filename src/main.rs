@@ -206,11 +206,14 @@ async fn main() {
                             println!("  > {}", text);
                             println!("  > {:?}", image_path);
 
+                            let now = Local::now();
+
                             match post.send(&auth.token).await {
                                 Ok(_) => {
                                     tweet.state = river::SENT.to_owned();
 
                                     // Update the River file.
+                                    river.last = now.to_rfc2822();
                                     river.update_state(image, river::SENT.to_owned());
                                     let content = river.to_text(false);
                                     write_file(content, &path);
@@ -224,7 +227,6 @@ async fn main() {
                                 }
                             }
 
-                            let now = Local::now();
                             let mins = 60 - now.minute();
                             let secs = ((mins * 60) + 1) as u64;
 

@@ -60,15 +60,21 @@ impl Tweet {
 
 pub struct River {
     pub days: Days,
+    pub last: String,
     pub tweets: Vec<Tweet>,
 }
 
 impl River {
     pub fn new() -> River {
         let days = Days::new();
+        let latest = String::new();
         let tweets = Vec::new();
 
-        River { days, tweets }
+        River {
+            days,
+            last: latest,
+            tweets,
+        }
     }
 
     pub fn get_day(&self, day: &str) -> String {
@@ -102,6 +108,9 @@ impl River {
                 let val = remove_whitespace(v);
 
                 match k.to_lowercase().as_str() {
+                    // The last tweet sent.
+                    "last" => self.last = val,
+
                     // It's a day?
                     "mon" => self.days.mon = val,
                     "tue" => self.days.tue = val,
@@ -199,11 +208,6 @@ impl River {
     pub fn to_text(&self, with_name_as_text: bool) -> String {
         let mut content = String::new();
 
-        content.push_str("schedule]\n\n");
-
-        content.push_str("# Times using 24-hour clock and daily tags, as much as you like.\n");
-        content.push_str("# sun] 10 13 16 #sundaytag\n\n");
-
         // Default schedule if doesn't exist.
         let mon = match self.days.mon.len() > 0 {
             true => self.days.mon.to_owned(),
@@ -239,6 +243,18 @@ impl River {
             true => self.days.sun.to_owned(),
             false => "".to_owned(),
         };
+
+        let last = match self.last.len() > 0 {
+            true => self.last.to_owned(),
+            false => "".to_owned(),
+        };
+
+        content.push_str("schedule]\n\n");
+
+        content.push_str("# Times using 24-hour clock and daily tags, as much as you like.\n");
+        content.push_str("# sun] 10 13 16 #sundaytag\n\n");
+
+        content.push_str(format!("last] {}\n\n", last).as_str());
 
         content.push_str(format!("mon] {}\n", mon).as_str());
         content.push_str(format!("tue] {}\n", tue).as_str());
