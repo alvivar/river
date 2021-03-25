@@ -79,7 +79,7 @@ async fn main() {
             }
 
             let image = entry.path().to_str().unwrap();
-            river.append_new(image.to_owned());
+            river.append_new(image);
         }
 
         // Create the River file.
@@ -89,9 +89,10 @@ async fn main() {
         let count = river
             .tweets
             .iter()
-            .filter(|x| x.state.trim().to_lowercase() == river::PENDING)
+            .filter(|x| x.state.trim().to_lowercase() != river::SENT)
             .count();
 
+        println!("Hi!\n");
         println!("{} updated", RIVER_FILE);
         println!("{} tweets pending\n", count);
     }

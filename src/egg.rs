@@ -67,7 +67,7 @@ impl Config {
             };
 
             if let Err(_) = egg_mode::auth::verify_tokens(&token).await {
-                println!("We've hit an error using your old tokens.\n");
+                println!("We've hit an error using your old tokens\n");
                 std::fs::remove_file(TWITTER_FILE).unwrap();
             } else {
                 println!("Welcome back, @{}!\n", username);
@@ -77,11 +77,11 @@ impl Config {
                 .await
                 .unwrap();
 
-            println!("We need to authenticate with Twitter.");
-            println!("Go to the following URL, sign in, and come back with the PIN.\n");
+            println!("We need to authenticate with twitter");
+            println!("Go to the following url, sign in, and come back with the #pin\n");
 
             println!(
-                "{}\n\nPaste the PIN here and hit [enter]:",
+                "{}\n\nPaste the #pin here and [hit] enter:",
                 egg_mode::auth::authorize_url(&request_token)
             );
 
@@ -92,7 +92,7 @@ impl Config {
             let auth = match egg_mode::auth::access_token(con_token, &request_token, pin).await {
                 Ok(tok) => tok,
                 Err(_) => {
-                    println!("Hm, that PIN didn't work.\n");
+                    println!("Hm, that #pin didn't work\n");
                     return None;
                 }
             };

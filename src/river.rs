@@ -163,7 +163,7 @@ impl River {
         }
     }
 
-    pub fn append_new(&mut self, image: String) {
+    pub fn append_new(&mut self, image: &str) {
         match self
             .tweets
             .iter_mut()
@@ -175,7 +175,7 @@ impl River {
             // New entry!
             None => {
                 let mut tweet = Tweet::new();
-                tweet.image = image;
+                tweet.image = image.to_owned();
 
                 self.tweets.push(tweet);
             }
