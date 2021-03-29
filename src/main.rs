@@ -39,6 +39,10 @@ async fn main() {
                 .short("n")
                 .help("Use the name as text")
             )
+            .arg(Arg::with_name("ready")
+                .short("r")
+                .help("Set ready in all unsent")
+            )
             .arg(Arg::with_name("instructions")
                 .short("i")
                 .help("Include instructions")
@@ -62,6 +66,7 @@ async fn main() {
     // Create or updates the River file by scanning image files on the folder.
     if let Some(matches) = matches.subcommand_matches("scan") {
         let name_as_text = matches.is_present("name");
+        let unsent_ready = matches.is_present("ready");
         let include_help = matches.is_present("instructions");
 
         // Parse the River file, if exists.
@@ -88,7 +93,7 @@ async fn main() {
         }
 
         // Create the River file.
-        let content = river.to_text(name_as_text, include_help);
+        let content = river.to_text(name_as_text, unsent_ready, include_help);
         write_file(content, &river_file);
 
         let count = river
@@ -117,19 +122,28 @@ async fn main() {
         let mut queue = river.tweets.clone(); // @todo There is probably a better way to do this.
 
         for tweet in &mut queue {
+            let text = tweet.text.to_owned();
+            let image = tweet.image.to_owned();
+            let image_path = PathBuf::from(&image);
+
             // Continue if there is a valid date, or is pending.
             match DateTime::parse_from_rfc2822(&tweet.state.to_string()) {
                 Ok(_) => continue,
                 Err(_) => {
-                    if tweet.state.trim().to_lowercase() == river::ERROR {
-                        println!("Error on the {} file, take a look", RIVER_FILE);
+                    let tweet_state = tweet.state.trim().to_lowercase();
+                    if tweet_state == river::ERROR {
+                        println!(" Error found, take a look in {}", RIVER_FILE);
+                        println!("  > {}", text);
+                        println!("  > {:?}", image_path);
 
-                        break;
+                        exit(1);
+                    } else if tweet_state != river::READY {
+                        println!(" Ignoring...");
+                        println!("  > {}", text);
+                        println!("  > {:?}", image_path);
+
+                        continue;
                     } else {
-                        tweet.state = river::ERROR.to_owned();
-                        println!("Error on the {} file, take a look", RIVER_FILE);
-
-                        break;
                     }
                 }
             }
@@ -192,10 +206,6 @@ async fn main() {
                         }
                         // The OutOfRangeError means that duration is less than 1 hour.
                         Err(_) => {
-                            let text = tweet.text.to_owned();
-                            let image = tweet.image.to_owned();
-                            let image_path = PathBuf::from(&image);
-
                             let media_type = match image_path
                                 .as_path()
                                 .extension()
@@ -235,7 +245,7 @@ async fn main() {
 
                                     river.last = now.to_rfc2822();
                                     river.update_state(image, now.to_rfc2822());
-                                    let content = river.to_text(false, false);
+                                    let content = river.to_text(false, false, false);
                                     write_file(content, &river_file);
 
                                     println!(" Sent!");
@@ -278,7 +288,7 @@ async fn main() {
 
         // Update the River file.
         river.tweets = queue;
-        let content = river.to_text(false, false);
+        let content = river.to_text(false, false, false);
         write_file(content, &river_file);
     }
 

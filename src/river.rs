@@ -6,7 +6,7 @@ pub const TWEET: &str = "tweet";
 pub const IMAGE: &str = "image";
 pub const STATE: &str = "state";
 
-pub const PENDING: &str = "pending";
+pub const READY: &str = "ready";
 pub const ERROR: &str = "error";
 
 #[derive(Debug)]
@@ -206,9 +206,7 @@ impl River {
         }
     }
 
-    pub fn to_text(&self, name_as_text: bool, include_help: bool) -> String {
-        let mut content = String::new();
-
+    pub fn to_text(&self, name_as_text: bool, unsent_ready: bool, include_help: bool) -> String {
         // Default schedule if doesn't exist.
         let mon = match self.days.mon.len() > 0 {
             true => self.days.mon.to_owned(),
@@ -250,6 +248,8 @@ impl River {
             false => "".to_owned(),
         };
 
+        let mut content = String::new();
+
         content.push_str("schedule]\n\n");
 
         if include_help {
@@ -284,7 +284,7 @@ impl River {
             let image = &file.image;
 
             let state = if file.state.len() > 0 {
-                let file_state = file.state.to_owned();
+                let file_state = file.state.to_owned().trim().to_lowercase();
 
                 let try_date = match DateTime::parse_from_rfc2822(&file_state) {
                     Ok(_) => file_state.to_owned(),
@@ -292,14 +292,18 @@ impl River {
                 };
 
                 let state = match file_state.as_str() {
-                    PENDING => PENDING,
+                    READY => READY,
                     ERROR => ERROR,
                     _ => try_date.as_str(),
                 };
 
                 state.to_owned()
             } else {
-                PENDING.to_owned()
+                if unsent_ready {
+                    READY.to_owned()
+                } else {
+                    "".to_owned()
+                }
             };
 
             if name_as_text && text.len() < 1 {
