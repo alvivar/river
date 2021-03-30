@@ -96,15 +96,26 @@ async fn main() {
         let content = river.to_text(name_as_text, unsent_ready, include_help);
         write_file(content, &river_file);
 
-        let count = river
-            .tweets
-            .iter()
-            // .filter(|x| x.state.trim().to_lowercase() != river::SENT)
-            .count();
+        // Info.
+        let mut ready: u32 = 0;
+        let mut ignored: u32 = 0;
+        let mut errors: u32 = 0;
+
+        for t in river.tweets.iter() {
+            match t.state.as_str() {
+                river::READY => ready += 1,
+                river::ERROR => errors += 1,
+                _ => ignored += 1,
+            }
+        }
 
         println!("Hi!\n");
-        println!("{} updated", RIVER_FILE);
-        println!("{} tweets pending\n", count);
+
+        println!("{} updated\n", RIVER_FILE);
+
+        println!("{} ready", ready);
+        println!("{} ignored", ignored);
+        println!("{} errors\n", errors);
     }
 
     // Start
@@ -138,17 +149,16 @@ async fn main() {
 
                         exit(1);
                     } else if tweet_state != river::READY {
-                        println!(" Ignoring...");
+                        println!(" Ignored!");
                         println!("  > {}", text);
                         println!("  > {:?}", image_path);
 
                         continue;
                     } else {
+                        // Don't do anything, just keep going.
                     }
                 }
             }
-
-            // @todo THIS IS WRONG ^
 
             // On the current day, which is the closest hour?
             let local = Local::now();
@@ -242,18 +252,20 @@ async fn main() {
                                 Ok(_) => {
                                     // Update the River file.
                                     tweet.state = now.to_rfc2822();
-
                                     river.last = now.to_rfc2822();
                                     river.update_state(image, now.to_rfc2822());
+
                                     let content = river.to_text(false, false, false);
                                     write_file(content, &river_file);
 
                                     println!(" Sent!");
                                 }
                                 Err(_) => {
+                                    tweet.state = river::ERROR.to_owned();
+
                                     println!(" Tweet error!");
 
-                                    exit(1);
+                                    break;
                                 }
                             }
 
@@ -288,6 +300,7 @@ async fn main() {
 
         // Update the River file.
         river.tweets = queue;
+
         let content = river.to_text(false, false, false);
         write_file(content, &river_file);
     }

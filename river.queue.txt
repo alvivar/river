@@ -13,62 +13,62 @@ sun] -1 0 0.5 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 
 
 tweets]
 
-tweet] 008751 png
+tweet] 008751
 image] C:\adros\code\rust\river\images\008751.png
-state] ready
+state]
 
-tweet] 00E436 png
+tweet] 00E436
 image] C:\adros\code\rust\river\images\00E436.png
-state] ready
+state]
 
-tweet] 1D2B53 png
+tweet] 1D2B53
 image] C:\adros\code\rust\river\images\1D2B53.png
-state] ready
+state]
 
-tweet] 29ADFF png
+tweet] 29ADFF
 image] C:\adros\code\rust\river\images\29ADFF.png
-state] ready
+state]
 
-tweet] 5F574F png
+tweet] 5F574F
 image] C:\adros\code\rust\river\images\5F574F.png
-state] ready
+state]
 
-tweet] 7E2553 png
+tweet] 7E2553
 image] C:\adros\code\rust\river\images\7E2553.png
-state] ready
+state]
 
-tweet] 83769c png
+tweet] 83769C
 image] C:\adros\code\rust\river\images\83769c.png
-state] ready
+state]
 
-tweet] AB5236 png
+tweet] AB5236
 image] C:\adros\code\rust\river\images\AB5236.png
-state] ready
+state]
 
-tweet] C2C3C7 png
+tweet] C2C3C7
 image] C:\adros\code\rust\river\images\C2C3C7.png
-state] ready
+state]
 
-tweet] FF004D png
+tweet] FF004D
 image] C:\adros\code\rust\river\images\FF004D.png
-state] ready
+state]
 
-tweet] ff77a8 png
+tweet] FF77A8
 image] C:\adros\code\rust\river\images\ff77a8.png
-state] ready
+state]
 
-tweet] FFA300 png
+tweet] FFA300
 image] C:\adros\code\rust\river\images\FFA300.png
-state] ready
+state]
 
-tweet] FFCCAA png
+tweet] FFCCAA
 image] C:\adros\code\rust\river\images\FFCCAA.png
-state] ready
+state]
 
-tweet] FFEC27 png
+tweet] FFEC27
 image] C:\adros\code\rust\river\images\FFEC27.png
-state] ready
+state]
 
-tweet] FFF1E8 png
+tweet] FFF1E8
 image] C:\adros\code\rust\river\images\FFF1E8.png
-state] ready
+state]

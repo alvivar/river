@@ -1,14 +1,13 @@
 
-    Handle the error file by exiting, record tweet Error status and advice
+    Safety datetime time lock to avoid over tweeting when the app is restarted
+    Upload a build to github for self updatess
+
+    New just creates a empty River file
+
+    Tweet in threads
     Pending state should be Title case
 
-    Thread mode to tweet in chains
-
-    Upload a build to github for self updatess
-    New just creates a empty River file
     Can print the file without help hints
-
-    Safety datetime time lock to avoid over tweeting when the app is restarted
 
     Waiting should rewrite the console, changing time accordingly
     Handle the River file as a Struct with powers
@@ -17,6 +16,8 @@
 
     Support timed tweets, every certain time?
 
+    2021.03.30
+    x Handle the error file by exiting, record tweet Error status and advice
 
     2021.03.23
     x Quickly update the file #hack
