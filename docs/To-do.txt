@@ -1,28 +1,27 @@
 
     Safety datetime time lock to avoid over tweeting when the app is restarted
-    Upload a build to github for self updatess
-
     New just creates a empty River file
+    Upload a build to github for self updates
 
     Tweet in threads
-    Pending state should be Title case
-
-    Can print the file without help hints
-
-    Waiting should rewrite the console, changing time accordingly
-    Handle the River file as a Struct with powers
-
-    Probably convert Status constant to some Enum
 
     Support timed tweets, every certain time?
+    Support minutes
+
+    Waiting should rewrite the console, changing time accordingly
+    Probably convert Status constant to some Enum
+    State in file should be Title case
+
 
     2021.03.30
     x Handle the error file by exiting, record tweet Error status and advice
 
     2021.03.23
+    x Can print the file without help hints
     x Quickly update the file #hack
 
     2021.03.22
+    x Handle the River file as a Struct with powers
     x Tweet a gif
     x Mark the gif as Sent or Error
     x The correct time to tweet
