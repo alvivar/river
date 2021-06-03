@@ -192,6 +192,7 @@ impl River {
         }
     }
 
+    // @special
     pub fn update_state(&mut self, image: String, state: String) {
         match self
             .tweets
