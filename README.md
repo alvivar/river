@@ -1,5 +1,3 @@
 # River
 
-**A bot that tweets at the best times when you drop images into a folder!**
-
-_Doesn't work yet, work in progress!_
+**A bot-like that tweets using a config file!**
